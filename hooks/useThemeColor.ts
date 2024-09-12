@@ -3,6 +3,9 @@
  * https://docs.expo.dev/guides/color-schemes/
  */
 
+//  /app/hooks/useThemeColor.ts
+
+
 import { useColorScheme } from 'react-native';
 
 import { Colors } from '@/constants/Colors';

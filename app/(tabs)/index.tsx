@@ -1,63 +1,145 @@
 // /app/tabs/index.tsx
-import { StyleSheet, Image, ScrollView } from 'react-native';
+
+import React from 'react';
+import {
+  StyleSheet,
+  Image,
+  ScrollView,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '@/context/ThemeProvider';
 
 export default function HomeScreen() {
+  const { theme } = useTheme();
+  const colors = theme === 'dark'
+    ? { background: '#1D3D47', text: '#fff', card: '#2C3E50', cardText: '#fff', accent: '#FF5722' }
+    : { background: '#F3F4F6', text: '#333', card: '#fff', cardText: '#333', accent: '#4CAF50' };
+
+  const navigation = useNavigation();
+
+  const handleAddExpense = () => {
+    // navigation.navigate('AddExpense'); // Navigate to AddExpense screen
+  };
+
+  const handleViewReports = () => {
+    // navigation.navigate('Reports'); // Navigate to Reports screen
+  };
+
   return (
-    <ParallaxScrollView 
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+    <ParallaxScrollView
+      headerBackgroundColor={{
+        dark: '#1D3D47', // Dark theme background color
+        light: '#F3F4F6' // Light theme background color
+      }}
       headerImage={
-        <ThemedView style={styles.header}>
+        <ThemedView style={[styles.header, { backgroundColor: colors.background }]}>
           <Image
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRYee9XpnNaWAD-BvjepzGYTAwJSRgd67-uA&s' }}  // Replace with your image URL
+            source={{
+              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJHA51gtpJAldEsG2OLtxy3jRveaGdV1s4MQ&s',
+            }}
             style={styles.headerImage}
             resizeMode="cover"
           />
           <ThemedView style={styles.headerOverlay}>
-            <ThemedText type="title" style={styles.headerText}>
-              Personal Finance Tracker
+            <ThemedText type="title" style={[styles.headerText, { color: colors.text }]}>
+              Finance Dashboard
             </ThemedText>
           </ThemedView>
         </ThemedView>
       }
     >
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <ThemedView style={styles.content}>
-          <ThemedText type="subtitle">Welcome to Your Finance Hub</ThemedText>
-          <ThemedText type="default">Track your expenses, set budgets, and monitor financial goals.</ThemedText>
-        </ThemedView>
+        {/* Quick Overview Cards */}
+        <View style={styles.cardRow}>
+          <View style={[styles.card, { backgroundColor: colors.card }]}>
+            <FontAwesome5 name="wallet" size={30} color={colors.accent} />
+            <ThemedText type="subtitle" style={[styles.cardTitle, { color: colors.cardText }]}>
+              Balance
+            </ThemedText>
+            <ThemedText type="default" style={[styles.cardAmount, { color: colors.accent }]}>
+              $12,345.67
+            </ThemedText>
+          </View>
+          <View style={[styles.card, { backgroundColor: colors.card }]}>
+            <FontAwesome5 name="chart-line" size={30} color={colors.accent} />
+            <ThemedText type="subtitle" style={[styles.cardTitle, { color: colors.cardText }]}>
+              Expenses
+            </ThemedText>
+            <ThemedText type="default" style={[styles.cardAmount, { color: colors.accent }]}>
+              $5,430.21
+            </ThemedText>
+          </View>
+        </View>
 
-        <ThemedView style={styles.section}>
-          <ThemedText type="subtitle">Features</ThemedText>
-          <ThemedText type="default">- Expense Tracking</ThemedText>
-          <ThemedText type="default">- Budget Planning</ThemedText>
-          <ThemedText type="default">- Financial Goals</ThemedText>
-          <ThemedText type="default">- Reports and Analytics</ThemedText>
-        </ThemedView>
+        {/* Expense Chart Section */}
+        <View style={styles.chartSection}>
+          <Image
+            source={{
+              uri: 'https://media.istockphoto.com/id/1145882183/photo/financial-and-technical-data-analysis-graph.jpg?s=612x612&w=0&k=20&c=Yx0-eRo1CcgJ90xXFjoQeOzghpE9QmJEMZjDvZXHHqU=',
+            }}
+            style={styles.chartImage}
+          />
+        </View>
 
-        <ThemedView style={styles.section}>
-          <ThemedText type="subtitle">How It Works</ThemedText>
-          <ThemedText type="default">Our app provides a simple way to manage your finances with the following steps:</ThemedText>
-          <ThemedText type="default">1. Add your expenses and incomes.</ThemedText>
-          <ThemedText type="default">2. Set monthly or yearly budgets.</ThemedText>
-          <ThemedText type="default">3. Review financial reports to see where your money is going.</ThemedText>
-          <ThemedText type="default">4. Adjust your budgets and goals as needed.</ThemedText>
-        </ThemedView>
+        {/* Actionable Sections */}
+        <View style={styles.cardSection}>
+          <TouchableOpacity style={[styles.actionCard, { backgroundColor: colors.card }]} onPress={handleAddExpense}>
+            <MaterialIcons name="add-box" size={30} color={colors.accent} />
+            <ThemedText type="default" style={[styles.actionText, { color: colors.cardText }]}>
+              Add Expense
+            </ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.actionCard, { backgroundColor: colors.card }]} onPress={handleViewReports}>
+            <MaterialIcons name="bar-chart" size={30} color={colors.accent} />
+            <ThemedText type="default" style={[styles.actionText, { color: colors.cardText }]}>
+              View Reports
+            </ThemedText>
+          </TouchableOpacity>
+        </View>
 
-        <ThemedView style={styles.section}>
-          <ThemedText type="subtitle">Tips for Managing Finances</ThemedText>
-          <ThemedText type="default">- Track all your expenses regularly.</ThemedText>
-          <ThemedText type="default">- Set realistic budgets.</ThemedText>
-          <ThemedText type="default">- Save a portion of your income.</ThemedText>
-          <ThemedText type="default">- Review and adjust your goals periodically.</ThemedText>
-        </ThemedView>
+        {/* New Section for Bills and Goals */}
+        <View style={styles.cardSection}>
+          <View style={[styles.card, { backgroundColor: colors.card }]}>
+            <FontAwesome5 name="money-bill-wave" size={30} color={colors.accent} />
+            <ThemedText type="subtitle" style={[styles.cardTitle, { color: colors.cardText }]}>
+              Upcoming Bills
+            </ThemedText>
+            <ThemedText type="default" style={[styles.cardAmount, { color: colors.accent }]}>
+              $1,200.00
+            </ThemedText>
+          </View>
+          <View style={[styles.card, { backgroundColor: colors.card }]}>
+            <FontAwesome5 name="piggy-bank" size={30} color={colors.accent} />
+            <ThemedText type="subtitle" style={[styles.cardTitle, { color: colors.cardText }]}>
+              Savings Goals
+            </ThemedText>
+            <ThemedText type="default" style={[styles.cardAmount, { color: colors.accent }]}>
+              $8,000.00
+            </ThemedText>
+          </View>
+        </View>
 
-        <ThemedView style={styles.section}>
-          <ThemedText type="subtitle">Contact Us</ThemedText>
-          <ThemedText type="default">If you have any questions or need support, feel free to reach out to us.</ThemedText>
-        </ThemedView>
+        {/* Tips Section */}
+        <View style={[styles.tipsSection, { backgroundColor: theme === 'dark' ? '#2C3E50' : '#E0F7FA' }]}>
+          <ThemedText type="subtitle" style={[styles.tipsTitle, { color: theme === 'dark' ? '#fff' : '#000' }]}>
+            Financial Tips
+          </ThemedText>
+          <ThemedText type="default" style={[styles.tipItem, { color: theme === 'dark' ? '#ddd' : '#333' }]}>
+            - Set long-term goals for savings.
+          </ThemedText>
+          <ThemedText type="default" style={[styles.tipItem, { color: theme === 'dark' ? '#ddd' : '#333' }]}>
+            - Keep track of daily expenses.
+          </ThemedText>
+          <ThemedText type="default" style={[styles.tipItem, { color: theme === 'dark' ? '#ddd' : '#333' }]}>
+            - Diversify your investments.
+          </ThemedText>
+        </View>
       </ScrollView>
     </ParallaxScrollView>
   );
@@ -65,7 +147,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   header: {
-    height: 300,
+    height: 250,
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
@@ -77,20 +159,84 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   headerText: {
-    color: '#fff',
+    fontSize: 26,
+    fontWeight: 'bold',
   },
   contentContainer: {
     paddingVertical: 20,
+    paddingHorizontal: 15,
   },
-  content: {
-    padding: 20,
+  cardRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
   },
-  section: {
+  card: {
+    width: '48%',
+    borderRadius: 10,
+    padding: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  cardTitle: {
+    fontSize: 16,
+    marginTop: 10,
+  },
+  cardAmount: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginTop: 5,
+  },
+  chartSection: {
+    marginBottom: 25,
+  },
+  chartImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+  },
+  cardSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 30,
+  },
+  actionCard: {
+    width: '48%',
+    borderRadius: 10,
     padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  actionText: {
+    marginTop: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  tipsSection: {
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  tipsTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  tipItem: {
+    fontSize: 14,
+    marginBottom: 5,
   },
 });
