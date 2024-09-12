@@ -1,5 +1,6 @@
 // /app/tabs/index.tsx
 
+
 import React from 'react';
 import {
   StyleSheet,
@@ -34,8 +35,8 @@ export default function HomeScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{
-        dark: '#1D3D47', // Dark theme background color
-        light: '#F3F4F6' // Light theme background color
+        dark: '#1D3D47',
+        light: '#F3F4F6'
       }}
       headerImage={
         <ThemedView style={[styles.header, { backgroundColor: colors.background }]}>
@@ -175,60 +176,47 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   card: {
-    width: '48%',
-    borderRadius: 10,
+    flex: 1,
+    marginHorizontal: 5,
     padding: 15,
+    borderRadius: 10,
     alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
   },
   cardTitle: {
     fontSize: 16,
-    marginTop: 10,
+    fontWeight: '600',
   },
   cardAmount: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginTop: 5,
   },
   chartSection: {
-    marginBottom: 25,
+    marginBottom: 20,
   },
   chartImage: {
     width: '100%',
     height: 200,
-    borderRadius: 10,
   },
   cardSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 30,
+    marginBottom: 20,
   },
   actionCard: {
-    width: '48%',
+    flex: 1,
+    marginHorizontal: 5,
+    padding: 15,
     borderRadius: 10,
-    padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
   },
   actionText: {
-    marginTop: 10,
     fontSize: 16,
-    fontWeight: 'bold',
+    marginTop: 10,
   },
   tipsSection: {
     padding: 15,
     borderRadius: 10,
-    marginTop: 20,
   },
   tipsTitle: {
     fontSize: 18,
