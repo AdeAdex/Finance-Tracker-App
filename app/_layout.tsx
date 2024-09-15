@@ -14,6 +14,9 @@ import { TailwindProvider } from 'tailwindcss-react-native';
 import LoadingScreen from '@/components/LoadingScreen';
 import { Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
 
+import LoginScreen from '@/app/Login';
+import SignUpScreen from '@/app/SignUp';
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -51,25 +54,13 @@ export default function RootLayout() {
   return (
     <TailwindProvider>
     <ThemeProvider>
-      {/* <Stack>
+      <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="Login" />
+        <Stack.Screen name="SignUp" />
         <Stack.Screen name="+not-found" />
-      </Stack> */}
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          ...(colorScheme === 'dark' ? DarkTheme : DefaultTheme),
-        }}
-      >
-        {/* Main Routes */}
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="+not-found" />
-
-        {/* Ensure other nested routes are correctly referenced */}
-        <Stack.Screen name="screens/ExploreScreen" />
-        <Stack.Screen name="screens/AddExpenseScreen" />
-        <Stack.Screen name="screens/ReportsScreen" />
       </Stack>
+     
       <Toast />
     </ThemeProvider>
     </TailwindProvider>

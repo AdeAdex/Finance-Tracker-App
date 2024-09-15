@@ -408,10 +408,11 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#3D51FF',
-    paddingVertical: 15,
-    paddingHorizontal: 120,
-    borderRadius: 10,
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
     marginBottom: 10,
+    width: '80%',
   },
   buttonText: {
     color: '#fff',
@@ -421,10 +422,10 @@ const styles = StyleSheet.create({
   loginButton: {
     marginTop: 10,
     backgroundColor: '#EEE5FF',
-    paddingVertical: 15,
-    paddingHorizontal: 120,
-    borderRadius: 10,
-    // marginBottom: 10,
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    width: '80%',
   },
   loginText: {
     color: '#3D51FF',

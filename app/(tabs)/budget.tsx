@@ -57,6 +57,7 @@ const BudgetScreen = () => {
         )}
       />
 
+      <Divider />
       <Button
         title="Add Category"
         onPress={() => {
@@ -69,7 +70,6 @@ const BudgetScreen = () => {
           /* Navigation to add transaction screen */
         }}
       />
-      <Divider />
     </View>
   );
 };
