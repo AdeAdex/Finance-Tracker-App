@@ -1,96 +1,115 @@
-//  /app/tabs/budget.tsx
+// app/tabs/budget.tsx
 
-import React from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
-import { ThemedView } from '@/components/ThemedView';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Toast from 'react-native-toast-message';
+import React from "react";
+import { View, Text, StyleSheet, Button, FlatList } from "react-native";
+import { LineChart } from "react-native-chart-kit";
+import { Colors } from "@/constants/Colors";
+import Divider from "@/components/Divider";
 
-export default function BudgetScreen() {
-  const [budget, setBudget] = React.useState('');
-  const [totalSpent, setTotalSpent] = React.useState(0);
-
-  React.useEffect(() => {
-    const loadBudget = async () => {
-      try {
-        const storedBudget = await AsyncStorage.getItem('budget');
-        if (storedBudget !== null) {
-          setBudget(storedBudget);
-        }
-      } catch (error) {
-        Toast.show({
-          type: 'error',
-          text1: 'Error',
-          text2: 'Failed to load budget.',
-        });
-      }
-    };
-
-    loadBudget();
-  }, []);
-
-  const handleSave = async () => {
-    try {
-      await AsyncStorage.setItem('budget', budget);
-      Toast.show({
-        type: 'success',
-        text1: 'Success',
-        text2: 'Budget saved successfully.',
-      });
-    } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Error',
-        text2: 'Failed to save budget.',
-      });
-    }
+const BudgetScreen = () => {
+  const budgetData = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    datasets: [
+      {
+        data: [500, 700, 800, 900, 850, 950],
+      },
+    ],
   };
 
+  const budgetCategories = [
+    { id: "1", name: "Groceries", amount: 300 },
+    { id: "2", name: "Rent", amount: 1200 },
+    { id: "3", name: "Utilities", amount: 150 },
+    { id: "4", name: "Entertainment", amount: 200 },
+  ];
+
   return (
-    <ThemedView style={styles.container}>
-      <Text style={styles.title}>Set Your Budget</Text>
-      <TextInput
-        style={styles.input}
-        value={budget}
-        onChangeText={setBudget}
-        placeholder="Enter your budget"
-        placeholderTextColor="white"
-        keyboardType="numeric"
-      />
-      <Button title="Save Budget" onPress={handleSave} />
-      <View style={styles.info}>
-        <Text style={styles.infoText}>Current Budget: ${budget}</Text>
-        <Text style={styles.infoText}>Total Spent: ${totalSpent}</Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Monthly Budget</Text>
+        <Text style={styles.summary}>Remaining: $1500</Text>
       </View>
-      {/* Toast component should be placed at a higher level in the component tree */}
-      <Toast />
-    </ThemedView>
+
+      <LineChart
+        data={budgetData}
+        width={350}
+        height={220}
+        chartConfig={{
+          backgroundColor: Colors.light.background,
+          backgroundGradientFrom: Colors.light.background,
+          backgroundGradientTo: Colors.light.background,
+          decimalPlaces: 2,
+          color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
+          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        }}
+        bezier
+        style={styles.chart}
+      />
+
+      <FlatList
+        data={budgetCategories}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.category}>
+            <Text style={styles.categoryName}>{item.name}</Text>
+            <Text style={styles.categoryAmount}>${item.amount}</Text>
+          </View>
+        )}
+      />
+
+      <Button
+        title="Add Category"
+        onPress={() => {
+          /* Navigation to add category screen */
+        }}
+      />
+      <Button
+        title="Add Transaction"
+        onPress={() => {
+          /* Navigation to add transaction screen */
+        }}
+      />
+      <Divider />
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    paddingVertical: 60,
+    backgroundColor: Colors.light.background,
+    padding: 16,
+  },
+  header: {
+    marginBottom: 20,
+    alignItems: "center",
   },
   title: {
     fontSize: 24,
-    marginBottom: 20,
-    color: 'white',
+    fontWeight: "bold",
   },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    padding: 10,
-    marginBottom: 20,
-    color: 'white',
-  },
-  info: {
-    marginTop: 20,
-  },
-  infoText: {
+  summary: {
     fontSize: 18,
-    color: 'white',
+    color: Colors.light.tint,
+  },
+  chart: {
+    marginVertical: 8,
+    borderRadius: 16,
+  },
+  category: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.light.border,
+  },
+  categoryName: {
+    fontSize: 16,
+  },
+  categoryAmount: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
+
+export default BudgetScreen;
