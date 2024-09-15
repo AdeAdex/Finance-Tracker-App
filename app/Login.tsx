@@ -1,6 +1,6 @@
 //  /app/Login.tsx
 
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +20,14 @@ export default function Login() {
   const navigation = useNavigation<LoginScreenNavigationProp>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+   // Use layout effect to modify the header options
+   useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: 'Login',
+      headerTitleAlign: 'center',  // This centers the title
+    });
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -59,8 +67,9 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 74,
+    // justifyContent: 'center',
   },
   input: {
     borderWidth: 1,
