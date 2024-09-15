@@ -15,12 +15,13 @@ import { useNavigation } from "@react-navigation/native";
 // import { FontAwesome } from '@expo/vector-icons';
 
 // Import the image
-import googleIcon from '@/assets/images/flat-color-icons_google.png';
+import googleIcon from "@/assets/images/flat-color-icons_google.png";
 
 // Define the type for your navigation stack
 type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
+  Verification: undefined;
 };
 
 export default function SignUpScreen() {
@@ -81,6 +82,12 @@ export default function SignUpScreen() {
           Login
         </Text>
       </Text>
+      <Text
+        style={styles.link}
+        onPress={() => navigation.navigate("Verification")}
+      >
+        Verification
+      </Text>
     </View>
   );
 }
@@ -135,20 +142,20 @@ const styles = StyleSheet.create({
     color: "#999",
   },
   googleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center', // Center items horizontally
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center", // Center items horizontally
+    backgroundColor: "#fff",
     padding: 12,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     marginBottom: 16,
   },
   googleButtonText: {
-    color: '#333',
-    fontWeight: 'bold',
-    marginLeft: 8,  // Adds spacing between the icon and the text
+    color: "#333",
+    fontWeight: "bold",
+    marginLeft: 8, // Adds spacing between the icon and the text
   },
   icon: {
     width: 24, // Adjust the width as needed
