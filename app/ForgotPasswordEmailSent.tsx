@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingVertical: 74,
+    paddingTop: 74,
+    paddingBottom: 10,
     alignItems: "center", // Center content horizontally
   },
   image: {

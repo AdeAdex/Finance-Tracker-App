@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingVertical: 74,
-    // justifyContent: 'center',
+    paddingTop: 74,
+    paddingBottom: 10,
   },
   input: {
     borderWidth: 1,

@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/images/splash.png",
         "backgroundColor": "#3D51FF",
         "resizeMode": "contain"
-      }
+      },
+      "package": "com.adeadex.FinanceTrackerApp"
     },
     "web": {
       "bundler": "metro",
@@ -33,6 +34,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "90d45950-40e2-4a2e-8d89-204e264c4e2f"
+      }
     }
   }
 }

@@ -255,6 +255,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AppButton } from '@/components/AppButton';
+import Divider from '@/components/Divider';
 
 const { width } = Dimensions.get('window');
 
@@ -339,6 +340,7 @@ export default function HomeScreen() {
         <AppButton onPress={handleNextStep} title={`${currentStep === onboardingSteps.length - 1 ? 'Sign Up' : 'Next'}`}  />
         <AppButton onPress={handleLogin} title='Login' buttonStyle={styles.loginButton} buttonTextStyle={styles.loginText}/>
       </View>
+      <Divider/>
     </View>
   );
 }
