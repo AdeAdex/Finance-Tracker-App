@@ -1,11 +1,12 @@
 //  /app/Verification.tsx
 
-
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useLayoutEffect, useEffect, useRef } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { AppButton } from "@/components/AppButton";
+import Divider from "@/components/Divider";
+
 
 type RootStackParamList = {
   Verification: undefined;
@@ -53,6 +54,13 @@ export default function VerificationScreen() {
     return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
   };
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: "Verification",
+      headerTitleAlign: "center", // This centers the title
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Enter your Verification Code</Text>
@@ -90,6 +98,8 @@ export default function VerificationScreen() {
         title="Verify"
         buttonStyle={styles.buttonStyle}
       />
+      <Divider/>
+
     </View>
   );
 }

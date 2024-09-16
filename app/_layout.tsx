@@ -12,7 +12,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { ThemeProvider } from '@/context/ThemeProvider'; // Correct import
 import { TailwindProvider } from 'tailwindcss-react-native';
 import LoadingScreen from '@/components/LoadingScreen';
-import { Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
+import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -25,8 +25,11 @@ export default function RootLayout() {
 
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
     Inter_700Bold,
   });
+
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -57,6 +60,7 @@ export default function RootLayout() {
         <Stack.Screen name="Login" />
         <Stack.Screen name="SignUp" />
         <Stack.Screen name="Verification" />  
+        <Stack.Screen name="ForgotPasswordEmailSent" />  
         <Stack.Screen name="+not-found" />
       </Stack>
      

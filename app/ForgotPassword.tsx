@@ -1,13 +1,5 @@
-//  /app/Login.tsx
-
 import React, { useState, useLayoutEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { AppButton } from "@/components/AppButton";
@@ -15,31 +7,32 @@ import Divider from "@/components/Divider";
 
 
 type RootStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
   ForgotPassword: undefined;
+  ForgotPasswordEmailSent: undefined;
 };
 
-type LoginScreenNavigationProp = NativeStackNavigationProp<
+type ForgotPasswordNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  "Login"
+  "ForgotPassword"
 >;
 
-export default function LoginScreen() {
-  const navigation = useNavigation<LoginScreenNavigationProp>();
+export default function ForgotPasswordScreen() {
+  const navigation = useNavigation<ForgotPasswordNavigationProp>();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   // Use layout effect to modify the header options
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: "Login",
+      headerTitle: "ForgotPassword",
       headerTitleAlign: "center", // This centers the title
     });
   }, [navigation]);
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>
+        Enter your email and we’ll send you a link to reset your password.
+      </Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -47,33 +40,11 @@ export default function LoginScreen() {
         value={email}
         onChangeText={setEmail}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-
       <AppButton
-        onPress={() => {}}
-        title="Login"
+        onPress={() => navigation.navigate("ForgotPasswordEmailSent")}
+        title="Continue"
         buttonStyle={styles.buttonStyle}
       />
-
-      <Text
-        style={styles.forgotPasswordText}
-        onPress={() => navigation.navigate("ForgotPassword")}
-      >
-        Forgot Password?
-      </Text>
-
-      <Text style={styles.footerText}>
-        Don't have an account yet?{" "}
-        <Text style={styles.link} onPress={() => navigation.navigate("SignUp")}>
-          Sign Up
-        </Text>
-      </Text>
       <Divider/>
 
     </View>
@@ -85,7 +56,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingVertical: 74,
-    // justifyContent: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "600",
+    marginBottom: 40,
   },
   input: {
     borderWidth: 1,
@@ -98,18 +73,5 @@ const styles = StyleSheet.create({
   buttonStyle: {
     marginBottom: 16,
     width: "auto",
-  },
-  forgotPasswordText: {
-    textAlign: "center",
-    marginBottom: 16,
-    color: "#3D51FF",
-  },
-  footerText: {
-    textAlign: "center",
-    color: "#333",
-  },
-  link: {
-    color: "#3D51FF",
-    fontWeight: "bold",
   },
 });
