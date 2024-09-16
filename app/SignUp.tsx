@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 
 // Import the image
 import googleIcon from "@/assets/images/flat-color-icons_google.png";
+import { AppButton } from "@/components/AppButton";
 
 // Define the type for your navigation stack
 type RootStackParamList = {
@@ -64,9 +65,7 @@ export default function SignUpScreen() {
         </Text>
       </View>
 
-      <TouchableOpacity style={styles.signupButton}>
-        <Text style={styles.signupButtonText}>Sign Up</Text>
-      </TouchableOpacity>
+      <AppButton onPress={() => {}} title="Sign Up"  buttonStyle={styles.buttonStyle}/>
 
       <Text style={styles.orText}>Or with</Text>
 
@@ -84,7 +83,7 @@ export default function SignUpScreen() {
       </Text>
       <Text
         style={styles.link}
-        onPress={() => navigation.navigate("Verification")}
+        onPress={() => navigation.navigate('Verification')}
       >
         Verification
       </Text>
@@ -125,21 +124,14 @@ const styles = StyleSheet.create({
   link: {
     color: "#3D51FF",
   },
-  signupButton: {
-    backgroundColor: "#3D51FF",
-    padding: 16,
-    borderRadius: 8,
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  signupButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
   orText: {
     textAlign: "center",
     marginBottom: 16,
     color: "#999",
+  },
+  buttonStyle: {
+    marginBottom: 16,
+    width: 'auto',
   },
   googleButton: {
     flexDirection: "row",

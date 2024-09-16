@@ -14,8 +14,6 @@ import { TailwindProvider } from 'tailwindcss-react-native';
 import LoadingScreen from '@/components/LoadingScreen';
 import { Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
 
-import LoginScreen from '@/app/Login';
-import SignUpScreen from '@/app/SignUp';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -58,6 +56,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="Login" />
         <Stack.Screen name="SignUp" />
+        <Stack.Screen name="Verification" />  
         <Stack.Screen name="+not-found" />
       </Stack>
      

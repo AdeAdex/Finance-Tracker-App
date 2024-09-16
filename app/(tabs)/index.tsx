@@ -254,6 +254,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { AppButton } from '@/components/AppButton';
 
 const { width } = Dimensions.get('window');
 
@@ -261,7 +262,7 @@ type NavigationProp = {
   navigate: (screen: string) => void;
 };
 
-export default function Onboarding() {
+export default function HomeScreen() {
   const scrollViewRef = useRef<ScrollView>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const navigation = useNavigation<NavigationProp>();
@@ -334,16 +335,9 @@ export default function Onboarding() {
             />
           ))}
         </View>
-
-        <TouchableOpacity onPress={handleNextStep} style={styles.button}>
-          <Text style={styles.buttonText}>
-            {currentStep === onboardingSteps.length - 1 ? 'Sign Up' : 'Next'}
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableOpacity>
+        
+        <AppButton onPress={handleNextStep} title={`${currentStep === onboardingSteps.length - 1 ? 'Sign Up' : 'Next'}`}  />
+        <AppButton onPress={handleLogin} title='Login' buttonStyle={styles.loginButton} buttonTextStyle={styles.loginText}/>
       </View>
     </View>
   );
@@ -430,5 +424,6 @@ const styles = StyleSheet.create({
   loginText: {
     color: '#3D51FF',
     fontSize: 16,
+    fontWeight: "normal",
   },
 });

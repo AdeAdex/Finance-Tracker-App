@@ -4,6 +4,7 @@ import React, { useState, useLayoutEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
+import { AppButton } from '@/components/AppButton';
 
 type RootStackParamList = {
   Login: undefined;
@@ -16,7 +17,7 @@ type LoginScreenNavigationProp = NativeStackNavigationProp<
   'Login'
 >;
 
-export default function Login() {
+export default function LoginScreen() {
   const navigation = useNavigation<LoginScreenNavigationProp>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -46,9 +47,7 @@ export default function Login() {
         onChangeText={setPassword}
       />
 
-      <TouchableOpacity style={styles.loginButton}>
-        <Text style={styles.loginButtonText}>Login</Text>
-      </TouchableOpacity>
+      <AppButton onPress={() => {}} title="Login" buttonStyle={styles.buttonStyle}/>
 
       <Text style={styles.forgotPasswordText} onPress={() => navigation.navigate('ForgotPassword')}>
         Forgot Password?
@@ -79,16 +78,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     backgroundColor: '#f9f9f9',
   },
-  loginButton: {
-    backgroundColor: '#3D51FF',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
+  buttonStyle: {
     marginBottom: 16,
-  },
-  loginButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    width: 'auto',
   },
   forgotPasswordText: {
     textAlign: 'center',
