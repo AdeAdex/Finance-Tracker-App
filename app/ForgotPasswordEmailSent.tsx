@@ -1,11 +1,16 @@
+// /app/ForgotPasswordEmailSent.tsx
+
 import React, { useLayoutEffect } from "react";
-import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
+import { Image, StyleSheet, Dimensions } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { ThemedView } from '@/components/ThemedView'; // Import ThemedView
+import { ThemedText } from '@/components/ThemedText'; // Import ThemedText
 import { AppButton } from "@/components/AppButton";
-
-import sentImage from "@/assets/images/email-sent.png";
 import Divider from "@/components/Divider";
+import sentImage from "@/assets/images/email-sent.png";
+import { useTheme } from '@/context/ThemeProvider'; // Import your theme hook
+import { Colors } from '@/constants/Colors';
 
 type RootStackParamList = {
   ForgotPasswordEmailSent: undefined;
@@ -19,32 +24,40 @@ type ForgotPasswordNavigationProp = NativeStackNavigationProp<
 
 const { width } = Dimensions.get("window");
 
-export default function ForgotPasswordScreen() {
+export default function ForgotPasswordEmailSentScreen() {
   const navigation = useNavigation<ForgotPasswordNavigationProp>();
+  const { theme } = useTheme(); // Get the current theme
+  const colors = Colors[theme];
 
   // Use layout effect to modify the header options
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: "Forgot Password Email Sent",
       headerTitleAlign: "center", // This centers the title
+      headerStyle: {
+        backgroundColor: colors.navigationHeaderBackground, // Set the header background color
+      },
+      headerTintColor: colors.text, // Set the header text color
     });
-  }, [navigation]);
+  }, [navigation, colors]);
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
       <Image source={sentImage} style={styles.image} />
-      <Text style={styles.title}>Your email is on the way</Text>
-      <Text style={styles.content}>
+      <ThemedText type="title" style={[styles.title, { color: colors.text}]}>
+        Your email is on the way
+      </ThemedText>
+      <ThemedText type="default" style={[styles.content, { color: colors.text }]}>
         Check your email sol......@gmail.com and follow the instructions to
         reset your password
-      </Text>
+      </ThemedText>
       <AppButton
         onPress={() => navigation.navigate("Login")}
         title="Back to Login"
-        buttonStyle={styles.buttonStyle}
+        buttonStyle={[styles.buttonStyle]}
       />
       <Divider/>
-    </View>
+    </ThemedView>
   );
 }
 
@@ -67,7 +80,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontFamily: "Inter_700Bold",
     textAlign: "center",
-    color: "#333",
     marginBottom: 10,
     lineHeight: 29.05,
   },
@@ -75,7 +87,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500", // Semi-bold weight
     textAlign: "center",
-    color: "#292B2D",
     marginTop: 10,
     fontFamily: "Inter_500Medium", // Use Inter semi-bold
     lineHeight: 19.36,

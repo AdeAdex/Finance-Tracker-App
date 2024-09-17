@@ -1,18 +1,15 @@
-//  /app/Login.tsx
+// /app/Login.tsx
 
 import React, { useState, useLayoutEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { TextInput, StyleSheet } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { AppButton } from "@/components/AppButton";
 import Divider from "@/components/Divider";
-
+import { ThemedView } from '@/components/ThemedView'; // Import ThemedView
+import { ThemedText } from '@/components/ThemedText'; // Import ThemedText
+import { useTheme } from '@/context/ThemeProvider'; // Import your theme hook
+import { Colors } from '@/constants/Colors';
 
 type RootStackParamList = {
   Login: undefined;
@@ -30,25 +27,32 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { theme } = useTheme(); // Get the current theme
+  const colors = Colors[theme];
+
   // Use layout effect to modify the header options
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: "Login",
       headerTitleAlign: "center", // This centers the title
+      headerStyle: {
+        backgroundColor: colors.navigationHeaderBackground, // Set the header background color
+      },
+      headerTintColor: colors.text, // Set the header text color
     });
-  }, [navigation]);
+  }, [navigation, colors]);
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
       <TextInput
-        style={styles.input}
+        style={[styles.input, { borderColor: colors.inputBorder, backgroundColor: colors.inputBackground }]}
         placeholder="Email"
         keyboardType="email-address"
         value={email}
         onChangeText={setEmail}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input, { borderColor: colors.inputBorder, backgroundColor: colors.inputBackground }]}
         placeholder="Password"
         secureTextEntry
         value={password}
@@ -58,25 +62,29 @@ export default function LoginScreen() {
       <AppButton
         onPress={() => {}}
         title="Login"
-        buttonStyle={styles.buttonStyle}
+        buttonStyle={[styles.buttonStyle]}
       />
 
-      <Text
-        style={styles.forgotPasswordText}
+      <ThemedText
+        style={[styles.forgotPasswordText, { color: colors.forgotPasswordText }]}
         onPress={() => navigation.navigate("ForgotPassword")}
       >
         Forgot Password?
-      </Text>
+      </ThemedText>
 
-      <Text style={styles.footerText}>
+      <ThemedText
+        style={[styles.footerText, { color: colors.footerText }]}
+      >
         Don't have an account yet?{" "}
-        <Text style={styles.link} onPress={() => navigation.navigate("SignUp")}>
+        <ThemedText
+          style={[styles.link, { color: colors.linkTextColor }]}
+          onPress={() => navigation.navigate("SignUp")}
+        >
           Sign Up
-        </Text>
-      </Text>
+        </ThemedText>
+      </ThemedText>
       <Divider/>
-
-    </View>
+    </ThemedView>
   );
 }
 
@@ -89,11 +97,9 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,
-    backgroundColor: "#f9f9f9",
   },
   buttonStyle: {
     marginBottom: 16,
@@ -102,14 +108,11 @@ const styles = StyleSheet.create({
   forgotPasswordText: {
     textAlign: "center",
     marginBottom: 16,
-    color: "#3D51FF",
   },
   footerText: {
     textAlign: "center",
-    color: "#333",
   },
   link: {
-    color: "#3D51FF",
     fontWeight: "bold",
   },
 });

@@ -22,6 +22,9 @@ export const Colors = {
     timerText: '#11181C', // Light mode timer text color
     infoText: '#11181C', // Light mode info text color
     linkTextColor: tintColorLight, // Light mode link text color
+    inputBorder: '#cccccc', // Light mode input border color
+    forgotPasswordText: tintColorLight, // Light mode forgot password text color
+    footerText: '#333', // Light mode footer text color
   },
   dark: {
     text: '#ECEDEE',
@@ -41,5 +44,8 @@ export const Colors = {
     timerText: '#ECEDEE', // Dark mode timer text color
     infoText: '#ECEDEE', // Dark mode info text color
     linkTextColor: tintColorDark, // Dark mode link text color
+    inputBorder: '#4f4f4f', // Dark mode input border color
+    forgotPasswordText: tintColorDark, // Dark mode forgot password text color
+    footerText: '#ECEDEE', // Dark mode footer text color
   },
 };
