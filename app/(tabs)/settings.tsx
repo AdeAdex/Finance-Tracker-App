@@ -1,10 +1,17 @@
 //  /app/tabs/settings.tsx
 
 
+
+
+
+
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons'; // Import FontAwesome5 for icons
 import { useTheme } from '@/context/ThemeProvider'; // Import the custom hook for theme context
+import { Colors } from '@/constants/Colors'; // Import color definitions
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
 
 const SettingsScreen = () => {
   const { theme, setTheme } = useTheme(); // Get theme and toggle function from context
@@ -15,28 +22,26 @@ const SettingsScreen = () => {
   };
 
   // Define colors based on current theme
-  const colors = theme === 'light' 
-    ? { background: '#F3F4F6', text: '#333' } 
-    : { background: '#1D3D47', text: '#fff' };
+  const colors = Colors[theme];
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Settings</Text>
+    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
+      <ThemedText type="title" style={{ color: colors.text }}>Settings</ThemedText>
       
       <TouchableOpacity onPress={toggleTheme} style={[styles.themeToggle, { backgroundColor: colors.background }]}>
         {/* Change icon based on the current theme */}
         <FontAwesome5
           name={theme === 'light' ? 'moon' : 'sun'}
           size={24}
-          color={colors.text}
+          color={colors.icon} // Use the icon color from the current theme
         />
-        <Text style={[styles.toggleText, { color: colors.text }]}>
+        <ThemedText type="default" style={[styles.toggleText, { color: colors.text }]}>
           {theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-        </Text>
+        </ThemedText>
       </TouchableOpacity>
 
       {/* Add more settings options here */}
-    </View>
+    </ThemedView>
   );
 };
 
@@ -45,11 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    padding: 20, // Optional padding
   },
   themeToggle: {
     flexDirection: 'row',

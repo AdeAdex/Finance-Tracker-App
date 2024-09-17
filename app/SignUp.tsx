@@ -1,24 +1,19 @@
-//  /app/SignUp.tsx
+// /app/SignUp.tsx
 
 import React, { useState, useLayoutEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { Image, TextInput, TouchableOpacity, StyleSheet, View } from "react-native";
 import Checkbox from "expo-checkbox";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-// import { FontAwesome } from '@expo/vector-icons';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import { AppButton } from "@/components/AppButton";
+import Divider from "@/components/Divider";
+import { useTheme } from '@/context/ThemeProvider'; // Import your theme hook
+import { Colors } from '@/constants/Colors';
 
 // Import the image
 import googleIcon from "@/assets/images/flat-color-icons_google.png";
-import { AppButton } from "@/components/AppButton";
-import Divider from "@/components/Divider";
-
 
 // Define the type for your navigation stack
 type RootStackParamList = {
@@ -29,6 +24,8 @@ type RootStackParamList = {
 
 export default function SignUpScreen() {
   const [isChecked, setChecked] = useState(false);
+  const { theme } = useTheme(); // Get the current theme
+  const colors = Colors[theme];
 
   // Specify the type for navigation
   const navigation =
@@ -37,59 +34,59 @@ export default function SignUpScreen() {
   // Use layout effect to modify the header options
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: "SignUp",
+      headerTitle: "Sign Up",
       headerTitleAlign: "center", // This centers the title
+      headerStyle: {
+        backgroundColor: colors.navigationHeaderBackground, // Set the header background color
+      },
+      headerTintColor: colors.text, // Set the header text color
     });
-  }, [navigation]);
+  }, [navigation, colors]);
 
   return (
-    <View style={styles.container}>
-      {/* <Text style={styles.title}>Sign Up</Text> */}
-
-      <TextInput style={styles.input} placeholder="Name" />
+    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
+      <TextInput style={[styles.input, { backgroundColor: colors.inputBackground }]} placeholder="Name" />
       <TextInput
-        style={styles.input}
+        style={[styles.input, { backgroundColor: colors.inputBackground }]}
         placeholder="Email"
         keyboardType="email-address"
       />
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry />
+      <TextInput style={[styles.input, { backgroundColor: colors.inputBackground }]} placeholder="Password" secureTextEntry />
 
       <View style={styles.checkboxContainer}>
         <Checkbox
           value={isChecked}
           onValueChange={setChecked}
-          color={isChecked ? "#3D51FF" : undefined}
+          color={isChecked ? colors.tint : undefined}
         />
-        <Text style={styles.checkboxText}>
+        <ThemedText style={[styles.checkboxText, { color: colors.text }]}>
           By signing up, you agree to the{" "}
-          <Text style={styles.link}>Terms of Service</Text> and{" "}
-          <Text style={styles.link}>Privacy Policy</Text>
-        </Text>
+          <ThemedText type="link" style={{ color: colors.tint }}>Terms of Service</ThemedText> and{" "}
+          <ThemedText type="link" style={{ color: colors.tint }}>Privacy Policy</ThemedText>
+        </ThemedText>
       </View>
 
       <AppButton
         onPress={() => navigation.navigate("Verification")}
         title="Sign Up"
-        buttonStyle={styles.buttonStyle}
+        buttonStyle={[styles.buttonStyle]}
       />
 
-      <Text style={styles.orText}>Or with</Text>
+      <ThemedText type="default" style={[styles.orText, { color: colors.text }]}>Or with</ThemedText>
 
-      <TouchableOpacity style={styles.googleButton}>
-        {/* <FontAwesome name="google" size={24} color="#DB4437" /> */}
+      <TouchableOpacity style={[styles.googleButton, { borderColor: colors.text }]}>
         <Image source={googleIcon} style={styles.icon} />
-        <Text style={styles.googleButtonText}>Sign Up with Google</Text>
+        <ThemedText type="defaultSemiBold" style={[styles.googleButtonText, { color: colors.text }]}>Sign Up with Google</ThemedText>
       </TouchableOpacity>
 
-      <Text style={styles.footerText}>
+      <ThemedText style={[styles.footerText, { color: colors.text }]}>
         Already have an account?{" "}
-        <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
+        <ThemedText type="link" onPress={() => navigation.navigate("Login")} style={{ color: colors.tint }}>
           Login
-        </Text>
-      </Text>
-      <Divider/>
-
-    </View>
+        </ThemedText>
+      </ThemedText>
+      <Divider />
+    </ThemedView>
   );
 }
 
@@ -100,36 +97,25 @@ const styles = StyleSheet.create({
     paddingTop: 74,
     paddingBottom: 10,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 24,
-  },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,
-    backgroundColor: "#f9f9f9",
   },
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 16,
-    fontSize: 16,
   },
   checkboxText: {
     marginLeft: 8,
-    color: "#333",
-  },
-  link: {
-    color: "#3D51FF",
+    fontSize: 16,
   },
   orText: {
     textAlign: "center",
     marginBottom: 16,
-    color: "#999",
+    fontSize: 14,
   },
   buttonStyle: {
     marginBottom: 16,
@@ -139,15 +125,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center", // Center items horizontally
-    backgroundColor: "#fff",
     padding: 12,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#ccc",
     marginBottom: 16,
   },
   googleButtonText: {
-    color: "#333",
     fontWeight: "bold",
     marginLeft: 8, // Adds spacing between the icon and the text
   },
@@ -157,6 +140,6 @@ const styles = StyleSheet.create({
   },
   footerText: {
     textAlign: "center",
-    color: "#333",
+    fontSize: 14,
   },
 });

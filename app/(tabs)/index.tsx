@@ -1,4 +1,4 @@
-// // // /app/tabs/index.tsx
+// /app/tabs/index.tsx
 
 
 // import React from 'react';
@@ -239,23 +239,18 @@
 
 
 
-
-
+// /app/tabs/index.tsx
 
 
 import React, { useRef, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import { View, Image, ScrollView, Dimensions, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AppButton } from '@/components/AppButton';
 import Divider from '@/components/Divider';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import { useTheme } from '@/context/ThemeProvider'; // Import your theme hook
+import { Colors } from '@/constants/Colors';
 
 const { width } = Dimensions.get('window');
 
@@ -267,22 +262,24 @@ export default function HomeScreen() {
   const scrollViewRef = useRef<ScrollView>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const navigation = useNavigation<NavigationProp>();
+  const { theme } = useTheme(); // Get the current theme
+  const colors = Colors[theme];
 
   const onboardingSteps = [
     {
       title: 'Gain total control of your money',
       description: 'Become your own money manager and make every cent count.',
-      image: require('@/assets/images/onbording1.png'), // Replace with actual image path
+      image: require('@/assets/images/onbording1.png'),
     },
     {
       title: 'Know where your money goes',
       description: 'Track your transaction easily, with categories and financial reports.',
-      image: require('@/assets/images/onbording2.png'), // Replace with actual image path
+      image: require('@/assets/images/onbording2.png'),
     },
     {
       title: 'Planning ahead',
       description: 'Setup your budget for each category so you are in control.',
-      image: require('@/assets/images/onbording3.png'), // Replace with actual image path
+      image: require('@/assets/images/onbording3.png'),
     },
   ];
 
@@ -295,7 +292,6 @@ export default function HomeScreen() {
     if (currentStep < onboardingSteps.length - 1) {
       scrollViewRef.current?.scrollTo({ x: (currentStep + 1) * width, animated: true });
     } else {
-      // Navigate to the signup page after the last onboarding step
       navigation.navigate('SignUp');
     }
   };
@@ -305,7 +301,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
       <ScrollView
         ref={scrollViewRef}
         horizontal
@@ -313,35 +309,36 @@ export default function HomeScreen() {
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        contentContainerStyle={styles.scrollView}
+        contentContainerStyle={styles.scrollContainer}
       >
         {onboardingSteps.map((step, index) => (
-          <View key={index} style={styles.slide}>
+          <View key={index} style={styles.stepContainer}>
             <Image source={step.image} style={styles.image} />
-            <Text style={styles.title}>{step.title}</Text>
-            <Text style={styles.description}>{step.description}</Text>
+            <ThemedText type="title" style={{ color: colors.text, textAlign: 'center', marginBottom: 10 }}>
+              {step.title}
+            </ThemedText>
+            <ThemedText type="description" style={{ color: colors.text, textAlign: 'center', marginBottom: 40 }}>
+              {step.description}
+            </ThemedText>
           </View>
         ))}
       </ScrollView>
 
-      <View style={styles.footer}>
-        <View style={styles.dotsContainer}>
+      <View style={styles.buttonContainer}>
+        <View style={styles.dotContainer}>
           {onboardingSteps.map((_, index) => (
             <View
               key={index}
-              style={[
-                styles.dot,
-                { backgroundColor: currentStep === index ? '#3D51FF' : '#ccc' },
-              ]}
+              style={[styles.dot, { backgroundColor: currentStep === index ? colors.tint : colors.icon }]}
             />
           ))}
         </View>
-        
-        <AppButton onPress={handleNextStep} title={`${currentStep === onboardingSteps.length - 1 ? 'Sign Up' : 'Next'}`}  />
-        <AppButton onPress={handleLogin} title='Login' buttonStyle={styles.loginButton} buttonTextStyle={styles.loginText}/>
+
+        <AppButton onPress={handleNextStep} title={currentStep === onboardingSteps.length - 1 ? 'Sign Up' : 'Next'}   />
+        <AppButton onPress={handleLogin} title="Login" buttonStyle={styles.loginButton} buttonTextStyle={{ color: 'blue' }} />
       </View>
-      <Divider/>
-    </View>
+      <Divider />
+    </ThemedView>
   );
 }
 
@@ -350,49 +347,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
-  scrollView: {
+  scrollContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  slide: {
+  stepContainer: {
     width,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
   },
   image: {
-    width: width * 0.8,  
-    height: width * 0.8, // Make the height equal to width to maintain aspect ratio
+    width: width * 0.8,
+    height: width * 0.8,
     marginBottom: 30,
-    borderStyle: 'dotted',
-    borderColor: 'red',
-    resizeMode: 'contain', // Ensure the image scales within the boundaries
+    resizeMode: 'contain',
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#333',
-    marginBottom: 10,
-    fontFamily: 'Inter_700Bold', // Use Inter bold here
-    lineHeight: 39,
-  },
-  description: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: '#666',
-    marginBottom: 40,
-    fontFamily: 'Inter_400Regular', // Use Inter regular here
-    lineHeight: 19.36,
-  },
-  footer: {
+  buttonContainer: {
     width: '100%',
     paddingVertical: 20,
     alignItems: 'center',
   },
-  dotsContainer: {
+  dotContainer: {
     flexDirection: 'row',
     marginBottom: 20,
   },
@@ -402,30 +379,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginHorizontal: 5,
   },
-  button: {
-    backgroundColor: '#3D51FF',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginBottom: 10,
-    width: '80%',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
   loginButton: {
     marginTop: 10,
-    backgroundColor: '#EEE5FF',
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
     width: '80%',
-  },
-  loginText: {
-    color: '#3D51FF',
-    fontSize: 16,
-    fontWeight: "normal",
+    backgroundColor: "#EEE5FF"
   },
 });

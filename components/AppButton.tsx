@@ -1,8 +1,8 @@
 //  /components/AppButton.tsx
 
+
 import React from "react";
 import {
-  Text,
   TouchableOpacity,
   StyleSheet,
   GestureResponderEvent,
@@ -10,6 +10,7 @@ import {
   ViewStyle,
   TextStyle,
 } from "react-native";
+import { ThemedText } from '@/components/ThemedText'; // Import ThemedText component
 
 interface AppButtonProps {
   onPress: (event: GestureResponderEvent) => void;
@@ -19,24 +20,29 @@ interface AppButtonProps {
 }
 
 export const AppButton: React.FC<AppButtonProps> = ({ onPress, title, buttonStyle, buttonTextStyle }) => {
+  // Use theme color for button background
+  
   return (
-    <TouchableOpacity style={[styles.Button, buttonStyle]} onPress={onPress}>
-      <Text style={[styles.buttonText, buttonTextStyle]}>{title}</Text>
+    <TouchableOpacity
+      style={[styles.button, buttonStyle]}
+      onPress={onPress}
+    >
+      <ThemedText style={[styles.buttonText, buttonTextStyle]}>{title}</ThemedText>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  Button: {
-    backgroundColor: "#3D51FF",
+  button: {
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
     width: "80%",
+    backgroundColor: "#3D51FF",
   },
   buttonText: {
-    color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
+    color: 'white'
   },
 });

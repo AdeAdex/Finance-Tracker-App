@@ -14,21 +14,28 @@
 
 
 
+
+//  /components/Divider.tsx
+
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useTheme } from '@/context/ThemeProvider'; // Import the custom hook for theme context
+import { Colors } from '@/constants/Colors'; // Import the color definitions
 
 const Divider = () => {
-  return <View style={styles.divider} />;
+  const { theme } = useTheme(); // Get the current theme
+  const colors = Colors[theme]; // Access theme colors
+
+  return <View style={[styles.divider, { borderTopColor: colors.border }]} />;
 };
 
 const styles = StyleSheet.create({
   divider: {
     width: '50%',
-    borderTopWidth: 3,
-    borderTopColor: 'black', // Replace with any color or use Colors.light.border
+    borderTopWidth: 4,
     marginVertical: 20, // Equivalent to 'my-4'
-    marginHorizontal: "auto",
-    marginTop: "auto"
+    marginHorizontal: 'auto',
+    marginTop: 'auto',
   },
 });
 
