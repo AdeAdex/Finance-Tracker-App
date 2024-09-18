@@ -1,7 +1,8 @@
 // /constants/Colors.ts
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#3D51FF';
+
+const tintColorLight = '#3D51FF';
+const tintColorDark = '#0a7ea4';
 
 export const Colors = {
   light: {
@@ -18,6 +19,7 @@ export const Colors = {
     buttonText: '#11181C',
     linkText: tintColorLight,
     navigationHeaderBackground: '#ffffff',
+    otpInputText: '#11181C',
     otpInputBorder: '#cccccc',
     timerText: '#11181C',
     infoText: '#11181C',
@@ -27,6 +29,7 @@ export const Colors = {
     footerText: '#333',
     error: '#D32F2F', // Light mode error color
     success: '#388E3C', // Light mode success color
+    TouchableOpacity: '#EEE5FF'
   },
   dark: {
     text: '#ECEDEE',
@@ -42,7 +45,8 @@ export const Colors = {
     buttonText: '#ECEDEE',
     linkText: tintColorDark,
     navigationHeaderBackground: '#1c1c1c',
-    otpInputBorder: '#4f4f4f',
+    otpInputText: '#ECEDEE',
+    otpInputBorder: '#9BA1A6',
     timerText: '#ECEDEE',
     infoText: '#ECEDEE',
     linkTextColor: tintColorDark,
@@ -51,5 +55,6 @@ export const Colors = {
     footerText: '#ECEDEE',
     error: '#CF6679', // Dark mode error color
     success: '#66BB6A', // Dark mode success color
+    TouchableOpacity: '#EEE5FF'
   },
 };

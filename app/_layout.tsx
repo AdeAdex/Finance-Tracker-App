@@ -2,16 +2,14 @@
 
 
 
-import { DarkTheme, DefaultTheme } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import Toast from 'react-native-toast-message';
-
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { ThemeProvider } from '@/context/ThemeProvider'; // Correct import
+import { ThemeProvider } from '@/context/ThemeProvider'; 
 import { TailwindProvider } from 'tailwindcss-react-native';
 import LoadingScreen from '@/components/LoadingScreen';
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
@@ -43,17 +41,6 @@ export default function RootLayout() {
     return <LoadingScreen />;
   }
 
-  // useEffect(() => {
-  //   if (loaded) {
-  //     SplashScreen.hideAsync();
-  //   }
-  // }, [loaded]);
-
-  // if (!loaded) {
-  //   // return null;
-  //   return <LoadingScreen/>
-  // }
-
   return (
     <TailwindProvider>
     <ThemeProvider>
@@ -63,6 +50,7 @@ export default function RootLayout() {
         <Stack.Screen name="SignUp" />
         <Stack.Screen name="Verification" />  
         <Stack.Screen name="ForgotPasswordEmailSent" />  
+        <Stack.Screen name="ResetPassword" />  
         <Stack.Screen name="+not-found" />
       </Stack>
      

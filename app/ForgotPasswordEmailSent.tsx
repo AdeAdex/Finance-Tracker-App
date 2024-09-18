@@ -15,6 +15,7 @@ import { Colors } from '@/constants/Colors';
 type RootStackParamList = {
   ForgotPasswordEmailSent: undefined;
   Login: undefined;
+  ResetPassword: undefined;
 };
 
 type ForgotPasswordNavigationProp = NativeStackNavigationProp<
@@ -51,8 +52,13 @@ export default function ForgotPasswordEmailSentScreen() {
         Check your email sol......@gmail.com and follow the instructions to
         reset your password
       </ThemedText>
-      <AppButton
+      {/* <AppButton
         onPress={() => navigation.navigate("Login")}
+        title="Back to Login"
+        buttonStyle={[styles.buttonStyle]}
+      /> */}
+      <AppButton
+        onPress={() => navigation.navigate("ResetPassword")}
         title="Back to Login"
         buttonStyle={[styles.buttonStyle]}
       />

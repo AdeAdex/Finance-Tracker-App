@@ -80,7 +80,7 @@ export default function VerificationScreen() {
         {otp.map((digit, index) => (
           <TextInput
             key={index}
-            style={[styles.otpInput, { borderColor: colors.otpInputBorder }]}
+            style={[styles.otpInput, { color: colors.otpInputText, borderColor: colors.otpInputBorder }]}
             keyboardType="number-pad"
             maxLength={1}
             value={digit}
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   otpInput: {
     borderWidth: 1,
     borderRadius: 8,
-    padding: 10,
+    padding: 6,
     textAlign: "center",
     fontSize: 24,
     width: 40,

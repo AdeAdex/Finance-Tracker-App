@@ -6,7 +6,11 @@
   "build": {
     "production": {
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "jsEngine": "hermes" 
+      },
+      "ios": {
+        "buildType": "app-store"
       }
     }
   }

@@ -1,110 +1,463 @@
-// /app/tabs/transactions.tsx
+// // /app/tabs/transactions.tsx
 
-import React from 'react';
-import { StyleSheet, FlatList, View } from 'react-native';
-import { ThemedView } from '@/components/ThemedView'; // Import ThemedView
-import { ThemedText } from '@/components/ThemedText'; // Import ThemedText
-import Ionicons from '@expo/vector-icons/Ionicons'; // Import Ionicons
-import { Collapsible } from '@/components/Collapsible'; // Import Collapsible
-import { useTheme } from '@/context/ThemeProvider'; // Import your theme hook
-import { Colors } from '@/constants/Colors';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  SectionList,
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useTheme } from "@/context/ThemeProvider";
+import { Colors } from "@/constants/Colors";
+import { Picker } from "@react-native-picker/picker";
 
-const transactions = [
-  { id: '1', date: '2024-09-10', description: 'Groceries', amount: '-$50' },
-  { id: '2', date: '2024-09-11', description: 'Salary', amount: '+$2000' },
+type IoniconNames = "basket" | "document" | "restaurant" | "cash" | "car";
+
+interface Transaction {
+  id: string;
+  date?: string;
+  description: string;
+  details: string;
+  amount: string;
+  time: string;
+  icon: IoniconNames;
+  category: "expense" | "income";
+}
+
+const transactions: { title: string; data: Transaction[] }[] = [
+  {
+    title: "Today",
+    data: [
+      {
+        id: "1",
+        description: "Entertainment",
+        details: "Buy some grocery",
+        amount: "-$20",
+        time: "10:00 AM",
+        icon: "basket",
+        category: "expense",
+      },
+      {
+        id: "2",
+        description: "Subscription",
+        details: "IEDC+ DSTV",
+        amount: "-$80",
+        time: "03:30 PM",
+        icon: "document",
+        category: "expense",
+      },
+      {
+        id: "3",
+        description: "Food Stuffs",
+        details: "Buy food",
+        amount: "-$32",
+        time: "07:30 PM",
+        icon: "restaurant",
+        category: "expense",
+      },
+    ],
+  },
+  {
+    title: "Yesterday",
+    data: [
+      {
+        id: "4",
+        description: "Salary Received",
+        details: "Salary for August",
+        amount: "+5000",
+        time: "04:30 PM",
+        icon: "cash",
+        category: "income",
+      },
+      {
+        id: "5",
+        description: "Transportation",
+        details: "Charging Tesla",
+        amount: "-$10",
+        time: "08:30 PM",
+        icon: "car",
+        category: "expense",
+      },
+    ],
+  },
+];
+
+const filterOptions = [
+  { label: "Income", value: "income" },
+  { label: "Expense", value: "expense" },
+  { label: "Transfer", value: "transfer" },
+  { label: "Highest", value: "highest" },
+  { label: "Lowest", value: "lowest" },
+  { label: "Newest", value: "newest" },
+  { label: "Oldest", value: "oldest" },
 ];
 
 export default function TransactionsScreen() {
-  const { theme } = useTheme(); // Get the current theme
+  const { theme } = useTheme();
   const colors = Colors[theme];
+  const [selectedMonth, setSelectedMonth] = useState("Month");
+  const [modalVisible, setModalVisible] = useState(false); // Modal visibility state
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const totalSpending = transactions
-    .filter(txn => txn.amount.startsWith('-'))
-    .reduce((acc, txn) => acc + parseFloat(txn.amount.replace('$', '')), 0);
+  // Function to handle category selection
+  const handleCategorySelect = (value: string | null) => {
+    setSelectedCategory(value);
+  };
 
-  const totalIncome = transactions
-    .filter(txn => txn.amount.startsWith('+'))
-    .reduce((acc, txn) => acc + parseFloat(txn.amount.replace('$', '')), 0);
-
-  return (
-    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { borderBottomColor: colors.border }]}>
-        <ThemedText type="title" style={[styles.headerTitle, { color: colors.text }]}>Transactions</ThemedText>
-        <ThemedText type="defaultSemiBold" style={[styles.summary, { color: colors.text }]}>
-          Total Spending: ${totalSpending.toFixed(2)}
-          {'\n'}Total Income: ${totalIncome.toFixed(2)}
+  const renderTransaction = ({ item }: { item: Transaction }) => (
+    <View
+      style={[
+        styles.transactionCard,
+        { backgroundColor: colors.background, borderColor: colors.border },
+      ]}
+    >
+      <View
+        style={[
+          styles.iconContainer,
+          {
+            backgroundColor:
+              item.category === "expense" ? "#FFEAEA" : "#E5F8E5",
+          },
+        ]}
+      >
+        <Ionicons
+          name={item.icon}
+          size={24}
+          color={item.category === "expense" ? colors.error : colors.success}
+        />
+      </View>
+      <View style={styles.transactionDetails}>
+        <ThemedText
+          type="defaultSemiBold"
+          style={[styles.description, { color: colors.text }]}
+        >
+          {item.description}
+        </ThemedText>
+        <ThemedText
+          type="default"
+          style={[styles.details, { color: colors.icon }]}
+        >
+          {item.details}
         </ThemedText>
       </View>
+      <View style={styles.amountContainer}>
+        <ThemedText
+          type="defaultSemiBold"
+          style={[
+            styles.amount,
+            {
+              color: item.amount.startsWith("-")
+                ? colors.error
+                : colors.success,
+            },
+          ]}
+        >
+          {item.amount}
+        </ThemedText>
+        <ThemedText
+          type="default"
+          style={[styles.time, { color: colors.icon }]}
+        >
+          {item.time}
+        </ThemedText>
+      </View>
+    </View>
+  );
 
-      <Collapsible title="Recent Transactions">
-        <FlatList
-          data={transactions}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={[styles.item, { borderBottomColor: colors.border }]}>
-              <Ionicons
-                name={item.amount.startsWith('-') ? 'arrow-down-circle' : 'arrow-up-circle'}
-                size={24}
-                color={item.amount.startsWith('-') ? colors.error : colors.success}
-                style={styles.icon}
-              />
-              <View style={styles.details}>
-                <ThemedText type="default" style={[styles.date, { color: colors.text }]}>{item.date}</ThemedText>
-                <ThemedText type="default" style={[styles.description, { color: colors.text }]}>{item.description}</ThemedText>
+  const renderSectionHeader = ({ section }: { section: { title: string } }) => (
+    <View style={styles.sectionHeader}>
+      <Text style={[styles.sectionHeaderText, { color: colors.text }]}>
+        {section.title}
+      </Text>
+    </View>
+  );
+
+  return (
+    <ThemedView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
+      {/* Header Row with Dropdown and Menu Icon */}
+      <View style={styles.headerRow}>
+        {/* Month Picker */}
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={selectedMonth}
+            style={styles.picker}
+            onValueChange={(itemValue) => setSelectedMonth(itemValue)}
+          >
+            <Picker.Item label="Month" value="Month" />
+            <Picker.Item label="January" value="January" />
+            <Picker.Item label="February" value="February" />
+          </Picker>
+        </View>
+
+        {/* Menu Icon to trigger modal */}
+        <TouchableOpacity
+          style={styles.menuIcon}
+          onPress={() => setModalVisible(true)}
+        >
+          <Ionicons name="menu-outline" size={24} color={colors.text} />
+        </TouchableOpacity>
+      </View>
+
+      {/* Financial Report Button */}
+      <TouchableOpacity style={styles.financialReportButton}>
+        <ThemedText
+          type="defaultSemiBold"
+          style={[styles.financialReportText, { color: "#5A67D8" }]}
+        >
+          See your financial report
+        </ThemedText>
+        <Ionicons name="chevron-forward-outline" size={20} color="#5A67D8" />
+      </TouchableOpacity>
+
+      {/* Transactions Section List */}
+      <SectionList
+        sections={transactions}
+        keyExtractor={(item) => item.id}
+        renderItem={renderTransaction}
+        renderSectionHeader={renderSectionHeader}
+        ListFooterComponent={<View style={{ height: 20 }} />}
+        style={styles.sectionList}
+      />
+
+      {/* Modal for Filter */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        {/* Modal Background */}
+        <TouchableOpacity
+          style={styles.modalBackground}
+          onPress={() => setModalVisible(false)}
+        >
+          {/* Ensure the modal content does not close when touched */}
+          <TouchableWithoutFeedback>
+            <View style={styles.modalContent}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>Filter Transaction</Text>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    { backgroundColor: colors.TouchableOpacity },
+                  ]}
+                >
+                  <ThemedText type="default" style={[{ color: colors.text }]}>
+                    Reset
+                  </ThemedText>
+                </TouchableOpacity>
               </View>
-              <ThemedText type="defaultSemiBold" style={[styles.amount, { color: item.amount.startsWith('-') ? colors.error : colors.success }]}>
-                {item.amount}
-              </ThemedText>
+
+              {/* Filter By Options */}
+              <View>
+                <ThemedText
+                  type="default"
+                  style={[styles.filterHeader, { color: colors.text }]}
+                >
+                  Filter By
+                </ThemedText>
+                <View style={styles.filterOption}>
+                  {filterOptions.slice(0, 3).map((option) => (
+                    <TouchableOpacity
+                      key={option.value}
+                      style={[
+                        styles.button,
+                        { backgroundColor: colors.TouchableOpacity },
+                      ]}
+                    >
+                      <ThemedText
+                        type="default"
+                        style={[{ color: colors.text }]}
+                      >
+                        {option.label}
+                      </ThemedText>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              {/* Sorting Options */}
+              <View>
+                <ThemedText
+                  type="default"
+                  style={[styles.filterHeader, { color: colors.text }]}
+                >
+                  Sort By
+                </ThemedText>
+                <View style={styles.filterOption}>
+                  {filterOptions.slice(3).map((option) => (
+                    <TouchableOpacity
+                      key={option.value}
+                      style={[
+                        styles.button,
+                        { backgroundColor: colors.TouchableOpacity },
+                      ]}
+                    >
+                      <ThemedText
+                        type="default"
+                        style={[{ color: colors.text }]}
+                      >
+                        {option.label}
+                      </ThemedText>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              {/* Category Options */}
+              <View>
+                <ThemedText
+                  type="default"
+                  style={[styles.filterHeader, { color: colors.text }]}
+                >
+                  Category
+                </ThemedText>
+                <View style={styles.pickerContainer}>
+                  <Picker
+                    selectedValue={selectedCategory}
+                    style={styles.picker}
+                    onValueChange={(itemValue) =>
+                      handleCategorySelect(itemValue)
+                    }
+                  >
+                    <Picker.Item label="Select Category" value={null} />
+                    {filterOptions.slice(0, 3).map((option) => (
+                      <Picker.Item
+                        key={option.value}
+                        label={option.label}
+                        value={option.value}
+                      />
+                    ))}
+                  </Picker>
+                </View>
+              </View>
+
+              {/* Apply Button */}
+              <TouchableOpacity
+                style={styles.applyButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.applyButtonText}>Apply</Text>
+              </TouchableOpacity>
             </View>
-          )}
-        />
-      </Collapsible>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
+      </Modal>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 74,
-    paddingBottom: 10,
-    alignItems: 'center',
+  container: { flex: 1, paddingHorizontal: 16, paddingTop: 74 },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
   },
-  header: {
-    marginBottom: 20,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
+  pickerContainer: {
+    alignSelf: "flex-start",
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    marginVertical: 10,
+    backgroundColor: "#fff",
   },
-  headerTitle: {
-    marginBottom: 10,
-  },
-  summary: {
-    fontSize: 16,
-  },
-  item: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  picker: { width: 120 },
+  menuIcon: { backgroundColor: "#F0F0F0", borderRadius: 12, padding: 10 },
+  financialReportButton: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#F4F3FF",
     padding: 16,
-    borderBottomWidth: 1,
+    borderRadius: 12,
+    marginBottom: 24,
   },
-  icon: {
-    marginRight: 10,
+  financialReportText: { fontSize: 16 },
+  sectionList: { borderRadius: 20, overflow: "hidden" },
+  sectionHeader: {
+    backgroundColor: "#F0F0F0",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    marginBottom: 8,
+    borderRadius: 8,
+    marginTop: 24,
   },
-  details: {
-    flex: 1,
-  },
-  date: {
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  description: {
-    fontSize: 14,
+  sectionHeaderText: { fontSize: 16, fontWeight: "700" },
+  transactionCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
     marginVertical: 4,
+    borderRadius: 12,
+    borderWidth: 1,
   },
-  amount: {
-    fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'right',
+  iconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 16,
   },
+  transactionDetails: { flex: 1 },
+  description: { fontSize: 16, fontWeight: "600" },
+  details: { fontSize: 14, color: "#777" },
+  amountContainer: { alignItems: "flex-end" },
+  amount: { fontSize: 16, fontWeight: "600" },
+  time: { fontSize: 12, color: "#777" },
+
+  // Modal styles
+  modalBackground: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "flex-end",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 16,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    height: "80%",
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  filterHeader: {
+    marginBottom: 15,
+  },
+  modalTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 16 },
+  filterOption: {
+    flexDirection: "row",
+    justifyContent: "space-between", // Ensure even spacing between items
+    flexWrap: "wrap", // Allow wrapping when there are more than 3 items
+    marginBottom: 16,
+  },
+  button: {
+    borderRadius: 18,
+    padding: 8,
+    alignItems: "center",
+    width: "30%", // Ensure 3 items per row
+    marginBottom: 8, // Add some margin for spacing between rows
+  },
+  applyButton: {
+    backgroundColor: "#5A67D8",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 30,
+  },
+  applyButtonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
 });

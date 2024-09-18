@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Finance-Tracker-App",
-    "slug": "Finance-Tracker-App",
-    "version": "1.0.0",
+    "name": "Finance Tracker",
+    "slug": "Finance Tracker",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/splash.png",
         "backgroundColor": "#3D51FF",
-        "resizeMode": "contain"
+        "resizeMode": "contain",
+        "versionCode": 2 
       },
       "package": "com.adeadex.FinanceTrackerApp"
     },
