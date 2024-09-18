@@ -29,7 +29,9 @@ export const Colors = {
     footerText: '#333',
     error: '#D32F2F', // Light mode error color
     success: '#388E3C', // Light mode success color
-    TouchableOpacity: '#EEE5FF'
+    TouchableOpacity: '#EEE5FF',
+    TouchableButton: '#000000',
+    modal: '#fff',
   },
   dark: {
     text: '#ECEDEE',
@@ -55,6 +57,10 @@ export const Colors = {
     footerText: '#ECEDEE',
     error: '#CF6679', // Dark mode error color
     success: '#66BB6A', // Dark mode success color
-    TouchableOpacity: '#EEE5FF'
+    TouchableOpacity: '#EEE5FF',
+    TouchableButton: '#000000',
+    modal: '#6c757d',
+    transactionPicker: '#EEE5FF',
+
   },
 };
