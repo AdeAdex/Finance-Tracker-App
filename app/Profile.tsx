@@ -110,23 +110,27 @@ export default function ProfileScreen() {
           ]}
         >
           <Ionicons name="cash" size={24} color={colors.success} />
+          <View>
           <Text style={[styles.summaryText, { color: colors.success }]}>
             Income
           </Text>
           <Text style={[styles.summaryAmount, { color: colors.success }]}>
             $5000
           </Text>
+          </View>
         </View>
         <View
           style={[styles.summaryBox, { backgroundColor: colors.error + "30" }]}
         >
           <Ionicons name="wallet" size={24} color={colors.error} />
+          <View>
           <Text style={[styles.summaryText, { color: colors.error }]}>
             Expenses
           </Text>
           <Text style={[styles.summaryAmount, { color: colors.error }]}>
             $1200
           </Text>
+          </View>
         </View>
       </View>
 
@@ -188,9 +192,12 @@ const styles = StyleSheet.create({
   },
   summaryBox: {
     width: "48%",
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     borderRadius: 12,
     alignItems: "center",
+    flexDirection: 'row',
+    gap: 10,
   },
   summaryText: {
     fontSize: 16,
