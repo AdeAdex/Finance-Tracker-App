@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Finance Tracker",
-    "slug": "Finance Tracker",
+    "slug": "finance-tracker",
     "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -13,32 +13,32 @@
       "backgroundColor": "#3D51FF"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.adeadex.FinanceTrackerApp"
     },
     "android": {
+      "jsEngine": "hermes",
+      "enableProguardInReleaseBuilds": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/splash.png",
-        "backgroundColor": "#3D51FF",
-        "resizeMode": "contain",
-        "versionCode": 2 
+        "backgroundColor": "#3D51FF"
       },
-      "package": "com.adeadex.FinanceTrackerApp"
+      "package": "com.adeadex.FinanceTrackerApp",
+      "versionCode": 2
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-font"
-    ],
+    "plugins": ["expo-router", "expo-font"],
     "experiments": {
       "typedRoutes": true
     },
+    "owner": "adeadex",
     "extra": {
       "eas": {
-        "projectId": "90d45950-40e2-4a2e-8d89-204e264c4e2f"
+        "projectId": "c5548a16-4688-40a7-887b-dedf35a49fd3"
       }
     }
   }

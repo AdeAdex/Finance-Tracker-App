@@ -6,15 +6,16 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { AppButton } from "@/components/AppButton";
 import Divider from "@/components/Divider";
-import { ThemedView } from '@/components/ThemedView'; // Import ThemedView
-import { ThemedText } from '@/components/ThemedText'; // Import ThemedText
-import { useTheme } from '@/context/ThemeProvider'; // Import your theme hook
-import { Colors } from '@/constants/Colors';
+import { ThemedView } from "@/components/ThemedView"; // Import ThemedView
+import { ThemedText } from "@/components/ThemedText"; // Import ThemedText
+import { useTheme } from "@/context/ThemeProvider"; // Import your theme hook
+import { Colors } from "@/constants/Colors";
 
 type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   ForgotPassword: undefined;
+  Profile: undefined;
 };
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
@@ -43,16 +44,30 @@ export default function LoginScreen() {
   }, [navigation, colors]);
 
   return (
-    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
+    <ThemedView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <TextInput
-        style={[styles.input, { borderColor: colors.inputBorder, backgroundColor: colors.inputBackground }]}
+        style={[
+          styles.input,
+          {
+            borderColor: colors.inputBorder,
+            backgroundColor: colors.inputBackground,
+          },
+        ]}
         placeholder="Email"
         keyboardType="email-address"
         value={email}
         onChangeText={setEmail}
       />
       <TextInput
-        style={[styles.input, { borderColor: colors.inputBorder, backgroundColor: colors.inputBackground }]}
+        style={[
+          styles.input,
+          {
+            borderColor: colors.inputBorder,
+            backgroundColor: colors.inputBackground,
+          },
+        ]}
         placeholder="Password"
         secureTextEntry
         value={password}
@@ -60,21 +75,22 @@ export default function LoginScreen() {
       />
 
       <AppButton
-        onPress={() => {}}
+        onPress={() => navigation.navigate("Profile")}
         title="Login"
         buttonStyle={[styles.buttonStyle]}
       />
 
       <ThemedText
-        style={[styles.forgotPasswordText, { color: colors.forgotPasswordText }]}
+        style={[
+          styles.forgotPasswordText,
+          { color: colors.forgotPasswordText },
+        ]}
         onPress={() => navigation.navigate("ForgotPassword")}
       >
         Forgot Password?
       </ThemedText>
 
-      <ThemedText
-        style={[styles.footerText, { color: colors.footerText }]}
-      >
+      <ThemedText style={[styles.footerText, { color: colors.footerText }]}>
         Don't have an account yet?{" "}
         <ThemedText
           style={[styles.link, { color: colors.linkTextColor }]}
@@ -83,7 +99,7 @@ export default function LoginScreen() {
           Sign Up
         </ThemedText>
       </ThemedText>
-      <Divider/>
+      <Divider />
     </ThemedView>
   );
 }

@@ -29,9 +29,13 @@ export const Colors = {
     footerText: '#333',
     error: '#D32F2F', // Light mode error color
     success: '#388E3C', // Light mode success color
-    TouchableOpacity: '#EEE5FF',
+    activeBackground: '#EEE5FF',
+    TouchableOpacity: '#fff',
     TouchableButton: '#000000',
     modal: '#fff',
+    reportButton: '#EEE5FF',
+    cardBackground: '#F8F9FA',  // Light card background
+    cardBorder: '#E0E0E0',  // Light card border
   },
   dark: {
     text: '#ECEDEE',
@@ -57,10 +61,13 @@ export const Colors = {
     footerText: '#ECEDEE',
     error: '#CF6679', // Dark mode error color
     success: '#66BB6A', // Dark mode success color
-    TouchableOpacity: '#EEE5FF',
+    activeBackground: '#EEE5FF',
+    TouchableOpacity: '#fff',
     TouchableButton: '#000000',
     modal: '#6c757d',
     transactionPicker: '#EEE5FF',
-
+    reportButton: '#D4F1FA',
+    cardBackground: '#2C2F33',  // Dark card background
+    cardBorder: '#444444',  // Dark card border
   },
 };
