@@ -1,83 +1,126 @@
 //  /app//tabs/_layout.tsx
 
-import { Tabs } from "expo-router";
-import React from "react";
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
-import { Colors } from "@/constants/Colors";
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Tabs } from 'expo-router';
+import { Colors } from '@/constants/Colors';
 import { useTheme } from '@/context/ThemeProvider';
+import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import { MiddleButton } from '@/components/transaction/MiddleButton';
+import AddTransactionModal from '@/components/transaction/AddTransactionModal';
 
-export default function TabLayout() {
+export default function MainLayout() {
+  const { theme } = useTheme();
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [transactionName, setTransactionName] = useState('');
+  const [transactionAmount, setTransactionAmount] = useState('');
 
-  const { theme } = useTheme(); // Use the custom useTheme hook
+  const openModal = () => setModalVisible(true);
+  const closeModal = () => setModalVisible(false);
+  const handleAddTransaction = () => {
+    // Handle the addition of the transaction here
+    closeModal();
+  };
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[theme].tabIconSelected,
-        tabBarInactiveTintColor: Colors[theme].tabIconDefault,
-        tabBarStyle: {
-          backgroundColor: Colors[theme].tabBarBackground, // Use tabBarBackground from Colors
-        },
-        headerShown: false,
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "home" : "home-outline"}
-              color={color}
-            />
-          ),
+    <View style={styles.container}>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: Colors[theme].tabIconSelected,
+          tabBarInactiveTintColor: Colors[theme].tabIconDefault,
+          tabBarStyle: {
+            backgroundColor: Colors[theme].tabBarBackground,
+            height: 60,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            position: 'absolute',
+            bottom: 0,
+            paddingBottom: 10,
+            shadowColor: '#000',
+            shadowOpacity: 0.06,
+            shadowOffset: { width: 0, height: 10 },
+            shadowRadius: 10,
+            elevation: 5,
+          },
+          headerShown: false,
         }}
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Home",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? "home" : "home-outline"} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="transactions"
+          options={{
+            title: "Transactions",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? "list" : "list-outline"} color={color} />
+            ),
+          }}
+        />
+         {/* <Tabs.Screen
+          name="settings"
+          options={{
+            title: "Settings",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? "cog" : "cog-outline"} color={color} />
+            ),
+          }}
+        /> */}
+        <Tabs.Screen
+          name="budget"
+          options={{
+            title: "Budget",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? "cash" : "cash-outline"} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: "Profile",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? "person" : "person-outline"} color={color} />
+            ),
+          }}
+        />
+       
+      </Tabs>
+
+      {/* Conditionally render the MiddleButton based on the active tab */}
+      <MiddleButton 
+        onPress={openModal} 
+        style={styles.middleButton}
       />
-      <Tabs.Screen
-        name="transactions"
-        options={{
-          title: "Transactions",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "list" : "list-outline"}
-              color={color}
-            />
-          ),
-        }}
+
+      <AddTransactionModal
+        visible={isModalVisible}
+        onClose={closeModal}
+        transactionName={transactionName}
+        onTransactionNameChange={setTransactionName}
+        transactionAmount={transactionAmount}
+        onTransactionAmountChange={setTransactionAmount}
+        onAddTransaction={handleAddTransaction}
       />
-      <Tabs.Screen
-        name="budget"
-        options={{
-          title: "Budget",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "cash" : "cash-outline"}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="goals"
-        options={{
-          title: "Goals",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "flag" : "flag-outline"}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: "Settings",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? "cog" : "cog-outline"} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  middleButton: {
+    position: "absolute",
+    bottom: 50,
+    left: "50%",
+    transform: [{ translateX: -32 }], // Center horizontally
+    zIndex: 10,
+  },
+});

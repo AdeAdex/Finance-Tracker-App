@@ -15,7 +15,8 @@ type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   ForgotPassword: undefined;
-  Profile: undefined;
+  profile: undefined;
+  "(tabs)": { screen: string }; 
 };
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
@@ -75,7 +76,8 @@ export default function LoginScreen() {
       />
 
       <AppButton
-        onPress={() => navigation.navigate("Profile")}
+        // onPress={() => navigation.navigate("profile")}
+        onPress={() => navigation.navigate("(tabs)", { screen: "profile" })} 
         title="Login"
         buttonStyle={[styles.buttonStyle]}
       />

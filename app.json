@@ -8,7 +8,7 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/launch-screen.png",
       "resizeMode": "contain",
       "backgroundColor": "#3D51FF"
     },
@@ -20,7 +20,7 @@
       "jsEngine": "hermes",
       "enableProguardInReleaseBuilds": true,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/splash.png",
+        "foregroundImage": "./assets/images/launch-screen.png",
         "backgroundColor": "#3D51FF"
       },
       "package": "com.adeadex.FinanceTrackerApp",

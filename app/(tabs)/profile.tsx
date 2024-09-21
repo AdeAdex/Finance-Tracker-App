@@ -1,3 +1,6 @@
+// /app/(tabs)/profile.tsx
+
+
 import React, { useState, useLayoutEffect } from "react";
 import {
   View,
@@ -13,12 +16,12 @@ import { useTheme } from "@/context/ThemeProvider";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
-import TransactionItem from "@/components/TransactionItem"; // Reusable component
+import TransactionItem from "@/components/transaction/TransactionItem"; // Reusable component
 import { transactions } from "@/data/transactionData"; // Shared data
 import { Transaction, TransactionSection } from "@/types/transactionTypes";
 import avatar from "@/assets/images/12.png";
 import { Picker } from "@react-native-picker/picker";
-// import RNPickerSelect from "react-native-picker-select";
+import { months } from "@/data/monthsData";
 
 export default function ProfileScreen() {
   const { theme } = useTheme();
@@ -26,24 +29,7 @@ export default function ProfileScreen() {
 
   const [selectedMonth, setSelectedMonth] = useState("October");
 
-  const months = [
-    { label: "January", value: "january" },
-    { label: "February", value: "february" },
-    { label: "March", value: "march" },
-    { label: "April", value: "april" },
-    { label: "May", value: "may" },
-    { label: "June", value: "june" },
-    { label: "July", value: "july" },
-    { label: "August", value: "august" },
-    { label: "September", value: "september" },
-    { label: "October", value: "october" },
-    { label: "November", value: "november" },
-    { label: "December", value: "december" },
-  ];
 
-  //   const renderTransactionItem = ({ item }: { item: Transaction }) => (
-  //         <TransactionItem item={item} /> // Use the reusable component
-  //       );
 
   const renderTransaction = ({
     item,
@@ -64,25 +50,17 @@ export default function ProfileScreen() {
         <Image source={avatar} style={styles.image} />
         </TouchableOpacity>
 
-        {/* Dropdown for months */}
+      
+        {/* Dynamic Picker with .map() */}
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={selectedMonth}
             onValueChange={(itemValue) => setSelectedMonth(itemValue)}
             style={[styles.picker, { color: colors.text }]}
           >
-            <Picker.Item label="January" value="January" />
-            <Picker.Item label="February" value="February" />
-            <Picker.Item label="March" value="March" />
-            <Picker.Item label="April" value="April" />
-            <Picker.Item label="May" value="May" />
-            <Picker.Item label="June" value="June" />
-            <Picker.Item label="July" value="July" />
-            <Picker.Item label="August" value="August" />
-            <Picker.Item label="September" value="September" />
-            <Picker.Item label="October" value="October" />
-            <Picker.Item label="November" value="November" />
-            <Picker.Item label="December" value="December" />
+            {months.map((month) => (
+              <Picker.Item key={month.value} label={month.label} value={month.value} />
+            ))}
           </Picker>
         </View>
 

@@ -58,18 +58,16 @@ const BudgetScreen = () => {
       />
 
       <Divider />
-      <Button
+      {/* <Button
         title="Add Category"
         onPress={() => {
-          /* Navigation to add category screen */
         }}
       />
       <Button
         title="Add Transaction"
         onPress={() => {
-          /* Navigation to add transaction screen */
         }}
-      />
+      /> */}
     </View>
   );
 };
