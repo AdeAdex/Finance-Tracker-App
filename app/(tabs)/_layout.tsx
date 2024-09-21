@@ -41,6 +41,7 @@ export default function MainLayout() {
             shadowOffset: { width: 0, height: 10 },
             shadowRadius: 10,
             elevation: 5,
+            
           },
           headerShown: false,
         }}
@@ -63,15 +64,7 @@ export default function MainLayout() {
             ),
           }}
         />
-         {/* <Tabs.Screen
-          name="settings"
-          options={{
-            title: "Settings",
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon name={focused ? "cog" : "cog-outline"} color={color} />
-            ),
-          }}
-        /> */}
+         
         <Tabs.Screen
           name="budget"
           options={{
@@ -118,9 +111,10 @@ const styles = StyleSheet.create({
   },
   middleButton: {
     position: "absolute",
-    bottom: 50,
+    bottom: 30,
     left: "50%",
-    transform: [{ translateX: -32 }], // Center horizontally
+    transform: [{ translateX: -24 }], // Center horizontally
     zIndex: 10,
   },
 });
+
