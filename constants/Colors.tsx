@@ -15,6 +15,7 @@ export const Colors = {
     border: '#000000',
     tabBarBackground: '#f8f8f8',
     inputBackground: '#f9f9f9',
+    inputPlaceholder: '#A0A0A0',
     buttonBackground: '#e0e0e0',
     buttonText: '#11181C',
     linkText: tintColorLight,
@@ -36,6 +37,8 @@ export const Colors = {
     reportButton: '#EEE5FF',
     cardBackground: '#F8F9FA',  // Light card background
     cardBorder: '#E0E0E0',  // Light card border
+    cardGreen: '#00A86B',
+    cardRed: '#FD3C4A',
   },
   dark: {
     text: '#ECEDEE',
@@ -47,6 +50,7 @@ export const Colors = {
     border: '#fff',
     tabBarBackground: '#2c2c2c',
     inputBackground: '#9BA1A6',
+    inputPlaceholder: '#6A6A6A',
     buttonBackground: '#3a3a3a',
     buttonText: '#ECEDEE',
     linkText: tintColorDark,
@@ -69,5 +73,7 @@ export const Colors = {
     reportButton: '#D4F1FA',
     cardBackground: '#2C2F33',  // Dark card background
     cardBorder: '#444444',  // Dark card border
+    cardGreen: '#00A86B',
+    cardRed: '#FD3C4A',
   },
 };

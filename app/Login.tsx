@@ -77,7 +77,7 @@ export default function LoginScreen() {
 
       <AppButton
         // onPress={() => navigation.navigate("profile")}
-        onPress={() => navigation.navigate("(tabs)", { screen: "profile" })} 
+        onPress={() => navigation.navigate("(tabs)", { screen: "index" })} 
         title="Login"
         buttonStyle={[styles.buttonStyle]}
       />

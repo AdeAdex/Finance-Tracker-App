@@ -45,7 +45,6 @@
 //     // Add more categories as needed
 //   ];
 
-
 //   const handleCloseAddTransactionModal = () => {
 //     setAddTransactionModalVisible(false);
 //   };
@@ -133,7 +132,7 @@
 //         categoryOptions={categoryOptions} // Pass categoryOptions here
 //       />
 //       <Divider/>
-     
+
 //     </ThemedView>
 //   );
 // };
@@ -244,10 +243,6 @@
 
 // export default TransactionsScreen;
 
-
-
-
-
 import React, { useState } from "react";
 import { StyleSheet, View, TouchableOpacity, SectionList } from "react-native";
 import { Picker } from "@react-native-picker/picker";
@@ -261,34 +256,46 @@ import FilterModal from "@/components/transaction/FilterModal";
 import AddTransactionModal from "@/components/transaction/AddTransactionModal";
 import { transactions, filterOptions } from "@/data/transactionData";
 import { TransactionSection, FilterOption } from "@/types/transactionTypes";
-import { RootStackParamList } from '@/types/navigation';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import { RootStackParamList } from "@/types/navigation";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
 import Divider from "@/components/Divider";
 
-type TransactionsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Transactions'>;
-type TransactionsScreenRouteProp = RouteProp<RootStackParamList, 'Transactions'>;
+type TransactionsScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Transactions"
+>;
+type TransactionsScreenRouteProp = RouteProp<
+  RootStackParamList,
+  "Transactions"
+>;
 
 interface TransactionsScreenProps {
   navigation: TransactionsScreenNavigationProp;
   route: TransactionsScreenRouteProp;
 }
 
-const TransactionsScreen: React.FC<TransactionsScreenProps> = ({ route, navigation }) => {
+const TransactionsScreen: React.FC<TransactionsScreenProps> = ({
+  route,
+  navigation,
+}) => {
   const { theme } = useTheme();
   const colors = Colors[theme];
   const [selectedMonth, setSelectedMonth] = useState("Month");
   const [filterModalVisible, setFilterModalVisible] = useState(false);
-  const [addTransactionModalVisible, setAddTransactionModalVisible] = useState(false);
+  const [addTransactionModalVisible, setAddTransactionModalVisible] =
+    useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedFilter, setSelectedFilter] = useState<string | null>("expense");
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(
+    "expense"
+  );
   const [transactionName, setTransactionName] = useState("");
   const [transactionAmount, setTransactionAmount] = useState("");
 
   const categoryOptions: FilterOption[] = [
-    { label: 'All Categories', value: 'all' },
-    { label: 'Groceries', value: 'groceries' },
-    { label: 'Utilities', value: 'utilities' },
+    { label: "All Categories", value: "all" },
+    { label: "Groceries", value: "groceries" },
+    { label: "Utilities", value: "utilities" },
     // Add more categories as needed
   ];
 
@@ -308,12 +315,16 @@ const TransactionsScreen: React.FC<TransactionsScreenProps> = ({ route, navigati
     setSelectedCategory(value);
   };
 
-  const renderTransaction = ({ item }: { item: TransactionSection["data"][0] }) => (
-    <TransactionItem item={item} />
-  );
+  const renderTransaction = ({
+    item,
+  }: {
+    item: TransactionSection["data"][0];
+  }) => <TransactionItem item={item} />;
 
   return (
-    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
+    <ThemedView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <View style={styles.headerRow}>
         <View style={styles.pickerContainer}>
           <Picker
@@ -328,7 +339,10 @@ const TransactionsScreen: React.FC<TransactionsScreenProps> = ({ route, navigati
         </View>
 
         <TouchableOpacity
-          style={[styles.menuIcon, { backgroundColor: colors.buttonBackground }]}
+          style={[
+            styles.menuIcon,
+            { backgroundColor: colors.buttonBackground },
+          ]}
           onPress={() => setFilterModalVisible(true)}
         >
           <Ionicons name="menu-outline" size={24} color={colors.text} />
@@ -336,13 +350,26 @@ const TransactionsScreen: React.FC<TransactionsScreenProps> = ({ route, navigati
       </View>
 
       <TouchableOpacity
-        style={[styles.financialReportButton, { backgroundColor: colors.reportButton }]}
+        style={[
+          styles.financialReportButton,
+          { backgroundColor: colors.reportButton },
+        ]}
         onPress={() => setAddTransactionModalVisible(true)}
       >
-        <ThemedText type="defaultSemiBold" style={[styles.financialReportText, { color: colors.tabIconSelected }]}>
+        <ThemedText
+          type="defaultSemiBold"
+          style={[
+            styles.financialReportText,
+            { color: colors.tabIconSelected },
+          ]}
+        >
           See your financial report
         </ThemedText>
-        <Ionicons name="chevron-forward-outline" size={20} color={colors.tabIconSelected} />
+        <Ionicons
+          name="chevron-forward-outline"
+          size={20}
+          color={colors.tabIconSelected}
+        />
       </TouchableOpacity>
 
       {/* Wrap SectionList in a View to allow scrolling */}
@@ -353,7 +380,11 @@ const TransactionsScreen: React.FC<TransactionsScreenProps> = ({ route, navigati
           renderItem={renderTransaction}
           renderSectionHeader={({ section }) => (
             <View style={styles.sectionHeader}>
-              <ThemedText style={[styles.sectionHeaderText, { color: colors.text }]}>{section.title}</ThemedText>
+              <ThemedText
+                style={[styles.sectionHeaderText, { color: colors.text }]}
+              >
+                {section.title}
+              </ThemedText>
             </View>
           )}
         />
@@ -381,13 +412,19 @@ const TransactionsScreen: React.FC<TransactionsScreenProps> = ({ route, navigati
         filterOptions={filterOptions}
         categoryOptions={categoryOptions} // Pass categoryOptions here
       />
-      <Divider />
     </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingHorizontal: 16, paddingTop: 44, paddingBottom: 70 },
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+    // paddingTop: 44,
+    // marginBottom: 90,
+    paddingTop:50,
+    paddingBottom: 100,
+  },
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",

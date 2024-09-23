@@ -1,88 +1,142 @@
+// /app/(tabs)/profile.tsx
 
-// /app/tabs/index.tsx
 
+import React, { useState, useLayoutEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  SectionList,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useTheme } from "@/context/ThemeProvider";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { Colors } from "@/constants/Colors";
+import TransactionItem from "@/components/transaction/TransactionItem"; // Reusable component
+import { transactions } from "@/data/transactionData"; // Shared data
+import { Transaction, TransactionSection } from "@/types/transactionTypes";
+import avatar from "@/assets/images/12.png";
+import { Picker } from "@react-native-picker/picker";
+import { months } from "@/data/monthsData";
 
-import React, { useRef, useState } from 'react';
-import { View, Image, ScrollView, Dimensions, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { AppButton } from '@/components/AppButton';
-import Divider from '@/components/Divider';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
-import { useTheme } from '@/context/ThemeProvider'; // Import your theme hook
-import { Colors } from '@/constants/Colors';
-import { onboardingSteps } from '@/data/OnboardingData';
-
-const { width } = Dimensions.get('window');
-
-type NavigationProp = {
-  navigate: (screen: string) => void;
-};
-
-export default function HomeScreen() {
-  const scrollViewRef = useRef<ScrollView>(null);
-  const [currentStep, setCurrentStep] = useState(0);
-  const navigation = useNavigation<NavigationProp>();
-  const { theme } = useTheme(); // Get the current theme
+export default function DashboardScreen() {
+  const { theme } = useTheme();
   const colors = Colors[theme];
 
- 
+  const [selectedMonth, setSelectedMonth] = useState("October");
 
-  const handleScroll = (event: any) => {
-    const slideIndex = Math.round(event.nativeEvent.contentOffset.x / width);
-    setCurrentStep(slideIndex);
-  };
 
-  const handleNextStep = () => {
-    if (currentStep < onboardingSteps.length - 1) {
-      scrollViewRef.current?.scrollTo({ x: (currentStep + 1) * width, animated: true });
-    } else {
-      navigation.navigate('SignUp');
-    }
-  };
 
-  const handleLogin = () => {
-    navigation.navigate('Login');
-  };
+  const renderTransaction = ({
+    item,
+  }: {
+    item: TransactionSection["data"][0];
+  }) => (
+    <TransactionItem item={item} /> // Use the reusable component
+  );
 
   return (
-    <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
-      <ScrollView
-        ref={scrollViewRef}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-        contentContainerStyle={styles.scrollContainer}
-      >
-        {onboardingSteps.map((step, index) => (
-          <View key={index} style={styles.stepContainer}>
-            <Image source={step.image} style={styles.image} />
-            <ThemedText type="title" style={{ color: colors.text, textAlign: 'center', marginBottom: 10 }}>
-              {step.title}
-            </ThemedText>
-            <ThemedText type="description" style={{ color: colors.text, textAlign: 'center', marginBottom: 40 }}>
-              {step.description}
-            </ThemedText>
-          </View>
-        ))}
-      </ScrollView>
+    <ThemedView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
+      {/* Profile Section */}
+      <View style={styles.profile}>
+        {/* Profile Image */}
+        <TouchableOpacity>
+        <Image source={avatar} style={styles.image} />
+        </TouchableOpacity>
 
-      <View style={styles.buttonContainer}>
-        <View style={styles.dotContainer}>
-          {onboardingSteps.map((_, index) => (
-            <View
-              key={index}
-              style={[styles.dot, { backgroundColor: currentStep === index ? colors.tint : colors.icon }]}
-            />
-          ))}
+      
+        {/* Dynamic Picker with .map() */}
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={selectedMonth}
+            onValueChange={(itemValue) => setSelectedMonth(itemValue)}
+            style={[styles.picker, { color: colors.text }]}
+          >
+            {months.map((month) => (
+              <Picker.Item key={month.value} label={month.label} value={month.value} />
+            ))}
+          </Picker>
         </View>
 
-        <AppButton onPress={handleNextStep} title={currentStep === onboardingSteps.length - 1 ? 'Sign Up' : 'Next'}   />
-        <AppButton onPress={handleLogin} title="Login" buttonStyle={styles.loginButton} buttonTextStyle={{ color: 'blue' }} />
+        {/* Notification Icon */}
+        <TouchableOpacity>
+        <Ionicons name="notifications-outline" size={28} color={colors.tabIconSelected} />
+        </TouchableOpacity>
       </View>
-      <Divider />
+      {/* Account Balance Section */}
+      <View style={styles.balanceContainer}>
+        <Text style={[styles.balanceLabel, { color: colors.text }]}>
+          Account Balance
+        </Text>
+        <Text style={[styles.balanceAmount, { color: colors.text }]}>
+          $9400
+        </Text>
+      </View>
+
+      {/* Income and Expenses Overview */}
+      <View style={styles.summaryContainer}>
+        <View
+          style={[
+            styles.summaryBox,
+            { backgroundColor: colors.cardGreen },
+          ]}
+        >
+          <Ionicons name="cash" size={24} color="white" />
+          <View>
+          <Text style={[styles.summaryText, { color: "white" }]}>
+            Income
+          </Text>
+          <Text style={[styles.summaryAmount, { color: "white" }]}>
+            $5000
+          </Text>
+          </View>
+        </View>
+        <View
+          style={[styles.summaryBox, { backgroundColor: colors.cardRed }]}
+        >
+          <Ionicons name="wallet" size={24} color="white" />
+          <View>
+          <Text style={[styles.summaryText, { color: "white" }]}>
+            Expenses
+          </Text>
+          <Text style={[styles.summaryAmount, { color: "white" }]}>
+            $1200
+          </Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Recent Transactions Section */}
+      <View style={styles.transactionsContainer}>
+        <View style={styles.transactionsHeader}>
+          <Text style={[styles.transactionsTitle, { color: colors.text }]}>
+            Recent Transaction
+          </Text>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: colors.reportButton }]}
+          >
+            <Text style={[styles.seeAllText, { color: "#000" }]}>See All</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* <FlatList
+          data={transactions}
+          renderItem={renderTransactionItem}
+          keyExtractor={(item) => item.id}
+        /> */}
+
+        <SectionList
+          sections={transactions}
+          keyExtractor={(item) => item.id}
+          renderItem={renderTransaction}
+        />
+      </View>
     </ThemedView>
   );
 }
@@ -90,48 +144,132 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: 'green',
-    paddingBottom: 74,
+    paddingHorizontal: 16,
+    paddingTop:50,
+    paddingBottom: 100,
+    // marginBottom: 90
   },
-  scrollContainer: {
+  balanceContainer: {
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  profile: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  balanceLabel: {
+    fontSize: 18,
+  },
+  balanceAmount: {
+    fontSize: 36,
+    fontWeight: "bold",
+  },
+  summaryContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 24,
+  },
+  summaryBox: {
+    width: "48%",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 12,
+    alignItems: "center",
     flexDirection: 'row',
-    alignItems: 'center',
+    gap: 10,
   },
-  stepContainer: {
-    width,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
+  summaryText: {
+    fontSize: 16,
+    marginTop: 8,
+  },
+  summaryAmount: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 4,
+  },
+  transactionsContainer: {
+    flex: 1,
+  },
+  transactionsHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  transactionsTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  button: {
+    borderRadius: 18,
+    padding: 8,
+    alignItems: "center",
+    width: "30%", // Ensure 3 items per row
+    marginBottom: 8, // Add some margin for spacing between rows
+    borderWidth: 1,
+  },
+  seeAllText: {
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  transactionItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    marginBottom: 12,
+  },
+  iconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 16,
+  },
+  transactionDetails: {
+    flex: 1,
+  },
+  description: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  details: {
+    fontSize: 14,
+    marginTop: 4,
+  },
+  amountContainer: {
+    alignItems: "flex-end",
+  },
+  amount: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  time: {
+    fontSize: 12,
+    marginTop: 4,
   },
   image: {
-    width: width * 0.8,
-    height: width * 0.8,
-    marginBottom: 30,
-    resizeMode: 'contain',
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
   },
-  buttonContainer: {
-    width: '100%',
-    paddingVertical: 20,
-    alignItems: 'center',
-  },
-  dotContainer: {
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-  dot: {
-    width: 12,
-    height: 12,
-    borderRadius: 5,
-    marginHorizontal: 5,
-  },
-  loginButton: {
-    marginTop: 10,
-    padding: 16,
+  pickerContainer: {
+    //     flex: 1,
+    marginHorizontal: 16,
+    justifyContent: "center", // Vertically center the picker
+    //     alignItems: "center", // Horizontally center the picker
+    borderColor: "#ccc",
+    borderWidth: 1,
     borderRadius: 8,
-    alignItems: 'center',
-    width: '80%',
-    backgroundColor: "#EEE5FF"
+    //     backgroundColor: 'green',
+    width: "35%",
+  },
+  picker: {
+    height: 40,
+    //     width: "50%", // Control the width of the picker
+    //     backgroundColor: 'red'
   },
 });

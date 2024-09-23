@@ -57,7 +57,7 @@ const BudgetScreen = () => {
         )}
       />
 
-      <Divider />
+      {/* <Divider /> */}
       {/* <Button
         title="Add Category"
         onPress={() => {
@@ -77,6 +77,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.light.background,
     padding: 16,
+    paddingTop:50,
+    paddingBottom: 100,
   },
   header: {
     marginBottom: 20,

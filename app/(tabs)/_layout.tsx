@@ -8,6 +8,7 @@ import { useTheme } from '@/context/ThemeProvider';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { MiddleButton } from '@/components/transaction/MiddleButton';
 import AddTransactionModal from '@/components/transaction/AddTransactionModal';
+import Divider from '@/components/Divider';
 
 export default function MainLayout() {
   const { theme } = useTheme();
@@ -18,7 +19,6 @@ export default function MainLayout() {
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
   const handleAddTransaction = () => {
-    // Handle the addition of the transaction here
     closeModal();
   };
 
@@ -30,18 +30,17 @@ export default function MainLayout() {
           tabBarInactiveTintColor: Colors[theme].tabIconDefault,
           tabBarStyle: {
             backgroundColor: Colors[theme].tabBarBackground,
-            height: 60,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
+            height: 90,
+            // borderTopLeftRadius: 20,
+            // borderTopRightRadius: 20,
             position: 'absolute',
             bottom: 0,
-            paddingBottom: 10,
+            paddingBottom: 35,
             shadowColor: '#000',
             shadowOpacity: 0.06,
             shadowOffset: { width: 0, height: 10 },
             shadowRadius: 10,
-            elevation: 5,
-            
+            elevation: 5,            
           },
           headerShown: false,
         }}
@@ -101,6 +100,7 @@ export default function MainLayout() {
         onTransactionAmountChange={setTransactionAmount}
         onAddTransaction={handleAddTransaction}
       />
+      <Divider style={styles.divider}/>
     </View>
   );
 }
@@ -111,10 +111,15 @@ const styles = StyleSheet.create({
   },
   middleButton: {
     position: "absolute",
-    bottom: 30,
+    bottom: 60,
     left: "50%",
     transform: [{ translateX: -24 }], // Center horizontally
     zIndex: 10,
+  },
+  divider: {
+    position: 'absolute',
+    alignSelf: 'center', 
+    bottom: -10,
   },
 });
 
