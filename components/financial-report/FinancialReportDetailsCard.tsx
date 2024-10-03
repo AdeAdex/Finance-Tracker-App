@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { LineChart } from "react-native-chart-kit"; // Import LineChart from react-native-chart-kit
 import { FinanceData } from "@/types/FinanceData"; // Import the FinanceData type
 
@@ -39,7 +46,7 @@ const FinancialReportDetailsCard: React.FC<FinancialReportDetailsCardProps> = ({
           <TouchableOpacity>
             <Image
               source={require("@/assets/images/pie chart.png")}
-              style={styles.icon}
+              style={styles.pieIcon}
             />
           </TouchableOpacity>
         </View>
@@ -55,8 +62,14 @@ const FinancialReportDetailsCard: React.FC<FinancialReportDetailsCardProps> = ({
             labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
             datasets: [
               {
-                data: selectedType === "income" ? chartDataIncome : chartDataExpense,
-                color: (opacity = 1) => selectedType === "income" ? `rgba(52, 199, 89, ${opacity})` : `rgba(255, 59, 48, ${opacity})`, // Dynamic color based on selected type
+                data:
+                  selectedType === "income"
+                    ? chartDataIncome
+                    : chartDataExpense,
+                color: (opacity = 1) =>
+                  selectedType === "income"
+                    ? `rgba(52, 199, 89, ${opacity})`
+                    : `rgba(255, 59, 48, ${opacity})`, // Dynamic color based on selected type
               },
             ],
           }}
@@ -90,41 +103,52 @@ const FinancialReportDetailsCard: React.FC<FinancialReportDetailsCardProps> = ({
       {/* Income/Expense Switch */}
       <View style={styles.toggleContainer}>
         <TouchableOpacity
-          style={[styles.toggleButton, selectedType === "expense" && styles.activeButton]}
+          style={[
+            styles.toggleButton,
+            selectedType === "expense" && styles.activeButton,
+          ]}
           onPress={() => setSelectedType("expense")} // Switch to expense
         >
           <Text
-            style={[styles.toggleText, selectedType === "expense" && styles.activeText]}
+            style={[
+              styles.toggleText,
+              selectedType === "expense" && styles.activeText,
+            ]}
           >
             Expense
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.toggleButton, selectedType === "income" && styles.activeButton]}
+          style={[
+            styles.toggleButton,
+            selectedType === "income" && styles.activeButton,
+          ]}
           onPress={() => setSelectedType("income")} // Switch to income
         >
           <Text
-            style={[styles.toggleText, selectedType === "income" && styles.activeText]}
+            style={[
+              styles.toggleText,
+              selectedType === "income" && styles.activeText,
+            ]}
           >
             Income
           </Text>
         </TouchableOpacity>
       </View>
 
-     {/* Transaction Section */}
-<View style={styles.transactionContainer}>
-  <Text style={styles.transactionTitle}>Transaction</Text>
-  <View style={styles.transactions}>
-    {report.biggestSources.map((source, index) => (
-      <View key={index} style={styles.transactionItem}>
-        {/* Transaction Icon, Details */}
-        <Text style={styles.transactionName}>{source.name}</Text>
-        <Text style={styles.transactionAmount}>+${source.amount}</Text>
+      {/* Transaction Section */}
+      <View style={styles.transactionContainer}>
+        <Text style={styles.transactionTitle}>Transaction</Text>
+        <View style={styles.transactions}>
+          {report.biggestSources.map((source, index) => (
+            <View key={index} style={styles.transactionItem}>
+              {/* Transaction Icon, Details */}
+              <Text style={styles.transactionName}>{source.name}</Text>
+              <Text style={styles.transactionAmount}>+${source.amount}</Text>
+            </View>
+          ))}
+        </View>
       </View>
-    ))}
-  </View>
-</View>
-
     </View>
   );
 };
@@ -160,6 +184,12 @@ const styles = StyleSheet.create({
   icon: {
     width: 30,
     height: 30,
+  },
+  pieIcon: {
+    width: 20,
+    height: 20,
+    marginVertical: 'auto',
+    marginLeft: 5,
   },
   amountValue: {
     fontSize: 36,

@@ -53,11 +53,13 @@ const FinancialReportCard: React.FC<FinancialReportCardProps> = ({
             </Text>
             {/* Display only the first item */}
             {report.biggestSources.length > 0 && (
-              <View style={styles.sourceTypeContainer}>
-                <Image source={report.sourceIcon} style={styles.sourceIcon} />
-                <Text style={styles.sourceType}>
-                  {report.biggestSources[0].name}
-                </Text>
+              <View style={styles.sourceTypeMainContainer}>
+                <View style={styles.sourceTypeContainer}>
+                  <Image source={report.sourceIcon} style={styles.sourceIcon} />
+                  <Text style={styles.sourceType}>
+                    {report.biggestSources[0].name}
+                  </Text>
+                </View>
                 <Text style={styles.sourceAmount}>
                   +${report.biggestSources[0].amount}
                 </Text>
@@ -130,11 +132,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   biggestSourceText: {
-    fontSize: 18,
+    fontSize: 24,
     color: "#0D0E0F",
     lineHeight: 25,
     fontWeight: "500",
     textAlign: "center",
+  },
+  sourceTypeMainContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   sourceTypeContainer: {
     flexDirection: "row",
@@ -147,6 +154,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
   },
+
   sourceType: {
     fontSize: 22,
     lineHeight: 25,
@@ -164,6 +172,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
     color: "#0D0E0F",
+    marginTop: 10,
   },
   buttonStyle: {
     marginBottom: 16,
