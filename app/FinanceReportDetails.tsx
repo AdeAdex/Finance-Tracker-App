@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { financeData } from "@/data/financeData";
 import FinancialReportDetailsCard from "@/components/financial-report/FinancialReportDetailsCard";
+import Divider from "@/components/Divider";
+
 
 const FinanceReportDetails = () => {
   const [selectedType, setSelectedType] = useState<"income" | "expense">("income"); // State to toggle
@@ -24,6 +26,7 @@ const FinanceReportDetails = () => {
           setSelectedType={setSelectedType} // Pass function to toggle type
         />
       )}
+      <Divider />
     </View>
   );
 };
