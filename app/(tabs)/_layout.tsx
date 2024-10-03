@@ -100,7 +100,7 @@ export default function MainLayout() {
         onTransactionAmountChange={setTransactionAmount}
         onAddTransaction={handleAddTransaction}
       />
-      <Divider style={styles.divider}/>
+      <Divider dividerStyle={styles.divider}/>
     </View>
   );
 }

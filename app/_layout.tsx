@@ -49,6 +49,8 @@ export default function RootLayout() {
         <Stack.Screen name="Verification" />  
         <Stack.Screen name="ForgotPasswordEmailSent" />  
         <Stack.Screen name="ResetPassword" />  
+        <Stack.Screen name="FinanceReport" />   
+        <Stack.Screen name="FinanceReportDetails" />   
         {/* <Stack.Screen name="Profile" />   */}
         <Stack.Screen name="+not-found" />
       </Stack>
